@@ -1,4 +1,7 @@
 {% load static %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+{% endblock %}
 {% block title %}
     <title>Home</title>
 {% endblock %}
@@ -6,7 +9,7 @@
 {% block content %}
 
     <!-- This is how to comment!-->
-    <div> Deliveready! </div>
+    <div class="title-test"> Deliveready! </div>
 
 
 {% endblock content %}
