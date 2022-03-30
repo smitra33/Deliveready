@@ -1,1 +1,113 @@
-Order
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/order.css' %}">
+{% endblock %}
+{% block title %}
+    <title>Order Summary</title>
+{% endblock %}
+
+{% block content %}
+    <div class="nav">
+       <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
+        <u1>   
+            <li><a href="default.asp">Home</a></li>
+            <li><a href="news.asp">Recipes</a></li>
+            <li><a href="contact.asp">Pantry</a></li>
+            <li style="float: right"><a href="about.asp">Cart</a></li>
+            <li style="float: right"><a href="about.asp">Orders</a></li>
+        </u1>
+        
+    </div>
+
+
+    <body>
+        <!-- This is how to comment!-->
+        <div class="white-background">
+            
+            <div class="title-test"> 
+                <h1 style="color:white"> '</h1>
+                <h1 style="color: #478E5F;"> Your Order Is Deliveready! </h1>
+                <hr size = "10" color = "black" style="width: 60%">
+            </div>
+
+            <div class="summary">
+                
+                <div class="order-info">
+                    <h2 style="margin-left: 100px; font-size: 21;"> ORDER INFORMATION</h2>
+                    <p style="margin-left: 100px"> Order #: 12345</p>
+                    <p style="margin-left: 100px"> Date: March 27, 2022</p>
+                </div>
+                <div class="shipping">
+                    <h2 style="margin-left: 100px; font-size: 21;"> SHIPPING ADDRESS</h2>
+                    <p style="margin-left: 100px; line-height: 200%"> Khanh Do <br>
+                        1234 ABCD St <br>
+                        Calgary, AB A1B 2C3
+                    </p>
+                </div>
+            </div>
+            <p style="font-size: 30px; text-align: center"> <strong>ETA:</strong> March 27, 2022</p>
+            <div class="ingredients">
+                <h2 style="color: #478E5F"> INGREDIENTS ORDERED</h2>
+                <hr size = "2" color = "#478E5F">
+                <div class="ingredients-list">
+                    <table style="width:100%">
+                        <style>
+                            td {
+                                text-align: center;
+                                line-height: 200%;
+                            }
+                        </style>
+
+                        <tr>
+                            <th style="width:25%"></th>
+                            <th style="width:25%">Name</th>
+                            <th style="width:25%">Quantity</th>
+                            <th style="width:25%">Price</th>
+                        </tr>
+                        <tr>
+                            <td><img src="{% static 'images/eggs.jpg' %}"> </td>
+                            <td>XL White Eggs (12 count)</td>
+                            <td>1</td>
+                            <td>$3.38</td>
+                        </tr>
+                        <tr>
+                            <td><img src="{% static 'images/rice.jpg' %}"> </td>
+                            <td>Jasmine White Rice Bag (8kg)</td>
+                            <td>1</td>
+                            <td>$16.97</td>
+                        </tr>
+                        <tr>
+                            <td><img src="{% static 'images/onion.jpg' %}"> </td>
+                            <td>Green Onion (1 bunch)</td>
+                            <td>1</td>
+                            <td>97c</td>
+                        </tr>
+                        <tr>
+                            <td><img src="{% static 'images/soy.jpg' %}"> </td>
+                            <td>Soy Sauce (500mL)</td>
+                            <td>1</td>
+                            <td>$2.27</td>
+                        </tr>
+                        <tr>
+                            <td><img src="{% static 'images/chicken.jpg' %}"> </td>
+                            <td>Boneless Skinless Chicken Breasts (4 breasts)</td>
+                            <td>1</td>
+                            <td>$12.00</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="total">
+                <p>Subtotal: $35.59</p>
+                <p>Est.Taxes: $2.39</p>
+                <p>Delivery: FREE</p>
+                <p style="line-height: 200%"><strong style="color: #478E5F">Total:</strong> $37.98</p>
+            </div>
+
+
+            
+        </div>
+
+    </body>
+{% endblock content %}
