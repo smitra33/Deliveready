@@ -1,15 +1,106 @@
 {% load static %}
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/recipe.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
 {% endblock %}
 {% block title %}
     <title>Home</title>
 {% endblock %}
 
 {% block content %}
+  <div class="nav">
+       <img src="{% static 'images/Deliveready.png' %}" class="center">
+  </div>
 
-    <!-- This is how to comment!-->
-    <div class="title-test"> Deliveready! </div>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Recipes</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Breakfast<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Lunch</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Dinner</a>
+          <a class="dropdown-item" href="#">Snacks</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Featured</a>
+        </div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+  <div class="container mx-auto mt-4">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+    <img src="{% static 'images/avotoast.jpg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Avocado Toast</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Creamy and Delicious!</h6>
+         <a href="#" class="btn mr-2"><i class="fas fa-link"></i> View Recipe</a>
+    </div>
+    </div>
+      </div>
+         <div class="col-md-4">
+  <div class="card" style="width: 18rem;">
+    <img src="{% static 'images/pancakes.jpg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Pancakes</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Fluffy and Buttery!</h6>
+      <a href="#" class="btn  mr-2"><i class="fas fa-link"></i> View Recipe</a>
+    </div>
+    </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+    <img src="{% static 'images/pizza.jpg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Pizza</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Cheesy and Goey!</h6>
+         <a href="#" class="btn mr-2"><i class="fas fa-link"></i> View Recipe</a>
+    </div>
+    </div>
+      </div>
+         <div class="col-md-4">
+  <div class="card" style="width: 18rem;">
+    <img src="{% static 'images/steak.jpg' %}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Steak</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Tender and Juicy!</h6>
+      <a href="#" class="btn mr-2"><i class="fas fa-link"></i> View Recipe</a>
+    </div>
+    </div>
+      </div>
+            <div class="col-md-4">
+      <div class="card" style="width: 18rem;">
+        <img src="{% static 'images/chicken.jpg' %}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Roast Chicken</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Savoury and Mouth-Watering!</h6>
+          <a href="#" class="btn mr-2"><i class="fas fa-link"></i> View Recipe</a>
+        </div>
+        </div>
+    </div>
+  </div>
+    </div>
+</body>
 
 {% endblock content %}
