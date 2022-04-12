@@ -2,13 +2,14 @@ from django.db.models import F
 from django.http import JsonResponse
 from rest_framework.decorators import action
 from rest_framework.views import APIView
-from .models import Ingredient, Recipe
+from .models import Recipe
+from ingredients.models import Ingredient
 
 #this is just getting the queryset for one model
 class IngredientsAll(APIView):
     @action(detail=True, methods=['get'], url_path='list', url_name='list')
     def get(self, request, *args, **kwargs):
-        ingredients = list(Ingredient.objects.all().values('name', 'quantity'))
+        ingredients = list(Ingredient.objects.all().values('name', 'quantity', 'quantity_unit', 'price'))
         return JsonResponse(ingredients, safe=False)
 
 #this is when a model has a many to many field with another model
