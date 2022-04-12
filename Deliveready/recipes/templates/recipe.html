@@ -3,36 +3,33 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/recipe.css' %}">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
+    <script src="{% static 'js/recipe.js' %}"></script>
 {% endblock %}
 {% block title %}
     <title>Home</title>
 {% endblock %}
 
 {% block content %}
-    <div class="nav">
-       <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
-    </div>
-<div style="text-align: center; padding-top: 20px;"><button type="button" class="btn btn-secondary btn-lg">Back</button></div>
-<div style="text-align: center; padding-top: 10px; color: #5b80b2"><button type="button" class="btn btn-secondary btn-lg">Add to Cart</button></div>
-<div class='container-fluid'>
-    <div class="card mx-auto col-md-3 col-10 mt-5 pt-4">
-        <div class="d-flex sale ">
-        </div> <img class='mx-auto img-thumbnail' src="{% static 'images/avotoast.jpg' %}" width="auto" height="auto" />
-        <div class="card-body text-center mx-auto">
-            <h2 class="card-title">Avocado Toast</h2>
-            <h4 class="card-text">Ingredients</h4>
-            <ul>
-              <li>1 slice of bread</li>
-              <li>½ ripe avocado</li>
-              <li>Pinch of salt</li>
-            </ul>
-            <h4 class="card-text">Instructions</h4>
-            <ul>
-              <li>Toast your slice of bread until golden and firm.</li>
-              <li>Remove the pit from your avocado. Use a big spoon to scoop out the flesh. Put it in a bowl and mash it up with a fork until it’s as smooth as you like it. Mix in a pinch of salt </li>
-              <li>Spread avocado on top of your toast. Enjoy as-is or top with any extras</li>
-            </ul>
+    <body onload="displayRecipeInfo()">
+        <div class="nav">
+           <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
+        </div>
+    <div style="text-align: center; padding-top: 20px;"><button type="button" class="btn btn-secondary btn-lg">Back</button></div>
+    <div style="text-align: center; padding-top: 10px; color: #5b80b2"><button type="button" class="btn btn-secondary btn-lg">Add to Cart</button></div>
+    <div class='container-fluid'>
+        <div class="card mx-auto col-md-3 col-10 mt-5 pt-4">
+            <div class="d-flex sale ">
+            </div> <img class='mx-auto img-thumbnail' src="{% static 'images/avotoast.jpg' %}" width="auto" height="auto" />
+            <div class="card-body text-center mx-auto">
+                <h2 id="recipe-title" class="card-title"></h2>
+                <h4 class="card-text">Ingredients</h4>
+                <ul id="recipe-ingredients">
+                </ul>
+                <h4 class="card-text">Instructions</h4>
+                <ul id="recipe-instructions">
+                </ul>
+            </div>
         </div>
     </div>
-</div>
+    </body>
 {% endblock content %}
