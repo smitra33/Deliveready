@@ -1,0 +1,103 @@
+
+.nav {
+    background-color: lightgrey;
+    height: 70px;
+    border: 0.5px solid black;
+}
+
+.nav u1 {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+li {
+    float: left;
+    margin-top: 10px;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.center {
+    display: inline-block;
+    width: 150;
+    margin-left: 600px;
+    margin-right: auto;
+}
+
+.payment {
+    width: 1000px;
+    margin: auto;
+    text-align: center;
+    margin-top: 60px;
+    background-color: white;
+}
+
+.payment-details {
+    margin-top: 80px;
+}
+
+.input-box {
+    height: 60px;
+    margin-bottom: 30px;
+    background-color: whitesmoke;
+    border: solid lightgrey
+}
+
+::placeholder {
+    color: black;
+    padding: 30px;
+    font-size: 30px;
+    opacity: 0.5;
+}
+
+#country {
+    width: 700px;
+    height: 60px;
+    color: grey;
+    font-size: 30px;
+    padding-left: 30px;
+    margin-bottom: 30px;
+}
+
+.city {
+    margin-bottom: 100px;
+}
+
+.next-to {
+    display: inline-block;
+    width: 24%;
+}
+
+.button-placement {
+    margin: auto;
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 100px;
+
+}
+
+.button {
+    border: solid grey;
+    width: 300px;
+    height: 50px;
+    font-size: 25px;
+    background-color: grey;
+    color: black;
+    font-family: 'Segoe UI';
+}
+
+body {
+    font-family: 'Segoe UI';
+    background-image: url("../images/foodback.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
