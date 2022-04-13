@@ -2,16 +2,21 @@ let title = '';
 let instructions = '';
 let ingredients = [];
 let recipeInfo = '';
+//received from view that renders recipe page under context data
+//required as key to retrieve the specific recipe information
+//api is called with recipe_id as soon as recipes.html is loaded
+//let recipe_id = JSON.parse(document.getElementById('recipe_id').textContent);
+let recipe_id = document.getElementById('recipe_id').innerHTML;
 
 async function getRecipeInfo(){
-    // const response = await fetch('api/recipe_view/${id}/')
-    const response = await fetch('http://127.0.0.1:8000/api/recipe_view/1/')
+    const response = await fetch('api/recipe_view/${recipe_id}/')
+    //const response = await fetch('http://127.0.0.1:8000/api/recipe_view/1/')
     recipeInfo = await response.json();
     assignRecipeInfo();
 }
 
 function assignRecipeInfo(){
-    title = recipeInfo.name;
+    title = recipeInfo.title;
     recipeInfo['ingredients'].forEach(ing => {
         ingredients.push(ing['name']);
     });

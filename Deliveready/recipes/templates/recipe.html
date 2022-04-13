@@ -11,10 +11,11 @@
 
 {% block content %}
     <body onload="getRecipeInfo()">
+    <h1 id="recipe_id">{{ recipe_id }}</h1>
         <div class="nav">
            <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
         </div>
-    <div style="text-align: center; padding-top: 20px;"><button type="button" class="btn btn-secondary btn-lg">Back</button></div>
+    <div style="text-align: center; padding-top: 20px;"><a href="{% url 'recipes:main' %}" type="button" class="btn btn-secondary btn-lg">Back</a></div>
     <div style="text-align: center; padding-top: 10px; color: #5b80b2"><button type="button" class="btn btn-secondary btn-lg">Add to Cart</button></div>
     <div class='container-fluid'>
         <div class="card mx-auto col-md-3 col-10 mt-5 pt-4">

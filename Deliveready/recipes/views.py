@@ -1,8 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from .models import Recipe
+from django.views.generic import ListView
 
 def main(request):
-    return render(request, 'index.html')
+    return redirect('recipes:home')
 
-def recipe(request):
-    return render(request, 'recipe.html')
+def recipe(request, recipe_id):
+    if request.user.is_authenticated:
+        context = {
+            'recipe_id': recipe_id
+        }
+        return render(request, 'recipe.html', context)
+    # # TODO: implement to login
+    # return redirect('users:login')
+
+def home(request):
+    if request.user.is_authenticated:
+        user = request.user
+        queryset = Recipe.objects.all()
+        context = {
+            "object_list": queryset,
+            "user": user
+        }
+        return render(request, "index.html", context)
