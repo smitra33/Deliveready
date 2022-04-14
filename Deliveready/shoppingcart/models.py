@@ -15,4 +15,3 @@ def create_shoppingcart(sender, instance, created, **kwargs):
     if created:
         ShoppingCart.objects.create(user=instance)
 
-

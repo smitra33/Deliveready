@@ -3,6 +3,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/recipe.css' %}">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
+    <script>
+        var recipe_id = {{ recipe_id }};
+    </script>
     <script src="{% static 'js/recipe.js' %}"></script>
 {% endblock %}
 {% block title %}
@@ -14,14 +17,14 @@
         <div class="nav">
            <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
         </div>
-    <div style="text-align: center; padding-top: 20px;"><button type="button" class="btn btn-secondary btn-lg">Back</button></div>
+    <div style="text-align: center; padding-top: 20px;"><a href="{% url 'recipes:main' %}" type="button" class="btn btn-secondary btn-lg">Back</a></div>
     <div style="text-align: center; padding-top: 10px; color: #5b80b2"><button type="button" class="btn btn-secondary btn-lg">Add to Cart</button></div>
     <div class='container-fluid'>
         <div class="card mx-auto col-md-3 col-10 mt-5 pt-4">
             <div class="d-flex sale ">
-            </div> <img class='mx-auto img-thumbnail' src="{% static 'images/avotoast.jpg' %}" width="auto" height="auto" />
+            </div> <img class='mx-auto img-thumbnail' src="{% static recipe.filename_url %}" width="auto" height="auto" />
             <div class="card-body text-center mx-auto">
-                <h2 id="recipe-title" class="card-title"></h2>
+                <h2 id="recipe-title" class="card-title">{{recipe.title}}</h2>
                 <h4 class="card-text">Ingredients</h4>
                 <ul id="recipe-ingredients">
                 </ul>
