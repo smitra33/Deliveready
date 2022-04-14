@@ -16,7 +16,6 @@ class OrderView(APIView):
         number = order.values('order_number').first()
         date = order.values('date').first()
         eta = order.values('eta').first()
-        total = order.values('total').first()
 
         # Gets subtotal and ingredients from shopping cart
         cart_id = order.values('cart').first()
@@ -25,9 +24,17 @@ class OrderView(APIView):
 
         ingredients = cart.values('ingredients')
         ingredient_list = []
+        quantity_list = []
+        quantity_unit_list = []
+        price_list = []
+        picture_list =[]
 
         for key in ingredients:
             ingredient_list.append(Ingredient.objects.filter(id=key['ingredients']).values('name').first())
+            quantity_list.append(Ingredient.objects.filter(id=key['ingredients']).values('quantity').first())
+            quantity_unit_list.append(Ingredient.objects.filter(id=key['ingredients']).values('quantity_unit').first())
+            price_list.append(Ingredient.objects.filter(id=key['ingredients']).values('price').first())
+            picture_list.append(Ingredient.objects.filter(id=key['ingredients']).values('filename_url').first())
         
         # Gets user shipping information
         user_id = cart.values('user').first()
@@ -37,5 +44,8 @@ class OrderView(APIView):
         last_name = user.values('last_name').first()
         phone = user.values('phone_number').first()
 
-        data = {'number': number['order_number'],'date': date['date'],'eta': eta['eta'],'ingredients': ingredient_list, 'subtotal': subtotal['total'],'total': total['total'], 'first_name': first_name['first_name'], 'last_name': last_name['last_name'],'address': address['address'], 'phone': phone['phone_number']}
+        data = {'number': number['order_number'],'date': date['date'],'eta': eta['eta'],'ingredients': ingredient_list, \
+            'subtotal': subtotal['total'], 'first_name': first_name['first_name'], 'last_name': last_name['last_name'],\
+                'address': address['address'], 'phone': phone['phone_number'],'quantity': quantity_list, 'quantity_unit': quantity_unit_list, \
+                    'price': price_list, 'picture': picture_list}
         return JsonResponse(data, safe=False)
