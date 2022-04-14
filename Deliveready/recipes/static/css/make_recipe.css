@@ -37,10 +37,29 @@ li a {
     text-align: center;
     margin-top: 60px;
     background-color: white;
-    height: 1000px;
+    height: 700px;
 }
 
 
+.recipe-maker-form {
+    margin-left: 100px;
+    margin-top: 50px;
+    font-size: 30px;
+}
+
+.button-placement {
+    margin-left : -100px;
+    margin-top: 60px;
+    margin-bottom: 100px;
+
+}
+
+.button {
+    width: 300px;
+    height: 50px;
+    font-size: 25px;
+    font-family: 'Segoe UI';
+}
 
 body {
     font-family: 'Segoe UI';

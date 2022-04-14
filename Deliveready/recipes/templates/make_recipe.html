@@ -28,7 +28,16 @@
                 <h1 style="color: #478E5F; text-align: center;"> Make a Recipe! </h1>
                 <hr size = "10" color = "black" style="width: 60%">
             </div>
-            
+
+            <form class = "recipe-maker-form" method = "post">
+                <table>
+                    {{ form }} 
+                </table>
+                {% csrf_token %}
+                <div class = "button-placement">
+                    <button type = "submit" class = "button"> Create </button>
+                </div>
+            </form>       
        
     </body>
 
