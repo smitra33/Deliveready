@@ -37,6 +37,27 @@ async function addToCart() {
     });
     const json = await response.json()
     console.log(json['success']);
+    if (json['success']){
+        var header = 'Success!'
+        var text = 'Ingredients from ' + recipeInfo.title + ' added to cart!';
+        displayModalContents(header, text);
+    }
+    else {
+        var header = 'Oops!'
+        var text = 'Sorry, something went wrong, an admin will contact you shortly.';
+        displayModalContents(header, text);
+    }
+}
+
+function displayModalContents(header, message){
+    document.getElementById("modal-heading").innerHTML = header;
+    document.getElementById("modal-message").innerHTML = message;
+}
+
+function openModal (){
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#add-button').trigger('focus')
+    })
 }
 
 function getCookie(name){
