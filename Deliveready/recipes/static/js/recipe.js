@@ -11,15 +11,12 @@ async function getRecipeInfo(){
 }
 
 function displayRecipeInfo(){
-    var title = '';
     var instructions = '';
     var ingredients = [];
-    title = recipeInfo.title;
     recipeInfo['ingredients'].forEach(ing => {
         ingredients.push(ing['name']);
     });
     instructions = recipeInfo.instructions;
-    document.getElementById('recipe-title').innerHTML = title;
     var ingredientLength = ingredients.length;
     var ingredientList = '';
     for (var i = 0; i < ingredientLength; i++) {

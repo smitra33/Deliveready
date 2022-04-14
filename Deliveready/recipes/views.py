@@ -7,9 +7,11 @@ def main(request):
     return redirect('recipes:home')
 
 def recipe(request, recipe_id):
+    recipe = Recipe.objects.filter(id=recipe_id).first()
     if request.user.is_authenticated:
         context = {
-            'recipe_id': recipe_id
+            "recipe_id": recipe_id,
+            "recipe": recipe,
         }
         return render(request, 'recipe.html', context)
     # # TODO: implement to login

@@ -22,9 +22,9 @@
     <div class='container-fluid'>
         <div class="card mx-auto col-md-3 col-10 mt-5 pt-4">
             <div class="d-flex sale ">
-            </div> <img class='mx-auto img-thumbnail' src="{% static 'images/avotoast.jpg' %}" width="auto" height="auto" />
+            </div> <img class='mx-auto img-thumbnail' src="{% static recipe.filename_url %}" width="auto" height="auto" />
             <div class="card-body text-center mx-auto">
-                <h2 id="recipe-title" class="card-title"></h2>
+                <h2 id="recipe-title" class="card-title">{{recipe.title}}</h2>
                 <h4 class="card-text">Ingredients</h4>
                 <ul id="recipe-ingredients">
                 </ul>
