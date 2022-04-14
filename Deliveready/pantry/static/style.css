@@ -1,0 +1,78 @@
+body, html {
+    height: 100%;
+    /*background-image: url("../assets/background.jpg");*/
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Segoe UI'
+}
+
+.pantryCard {
+    width: 12rem;
+}
+
+.cartTitle {
+    font-size: 32px;
+    font-weight: bold;
+    left: 30px;
+    margin-top: 20px;
+    margin-left: 200px;
+}
+
+.nav {
+    background-color: lightgrey;
+    height: 70px;
+    border: 0.5px solid black;
+}
+
+.nav u1 {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+.badge {
+    margin-right: 15px;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    margin-top: 10px;
+}
+li {
+    float: left;
+    margin-top: 0px;
+}
+
+.centertop {
+    display: inline-block;
+    width: 180px;
+    margin-left: 800px;
+    margin-right: auto;
+}
+
+.card-price {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.center{
+    margin: auto;
+
+    }
+
+.card {
+    padding: 15px;
+}
+
