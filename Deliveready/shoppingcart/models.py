@@ -16,6 +16,3 @@ def create_shoppingcart(sender, instance, created, **kwargs):
         ShoppingCart.objects.create(user=instance)
 
 
-from django.db import models
-
-# Create your models here.
