@@ -3,6 +3,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/recipe.css' %}">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
+    <script>
+        var recipe_id = {{ recipe_id }};
+    </script>
     <script src="{% static 'js/recipe.js' %}"></script>
 {% endblock %}
 {% block title %}
@@ -11,7 +14,6 @@
 
 {% block content %}
     <body onload="getRecipeInfo()">
-    <h1 id="recipe_id">{{ recipe_id }}</h1>
         <div class="nav">
            <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
         </div>
