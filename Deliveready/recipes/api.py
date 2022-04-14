@@ -5,6 +5,8 @@ from rest_framework.decorators import action
 from rest_framework.views import APIView
 from .models import Recipe
 from ingredients.models import Ingredient
+from users.models import User
+from shoppingcart.models import ShoppingCart
 
 #this is just getting the queryset for one model
 class IngredientsAll(APIView):
@@ -39,6 +41,21 @@ class RecipeView(APIView):
         return JsonResponse(data, safe=False)
 
 
-class AddIngredientsToCart(UpdateView):
+class AddRecipeIngredientsToCart(APIView):
+    @action(detail=True, methods=['post'])
     def post(self, request, *args, **kwargs):
-        recipe = self.get_object()
+        try:
+            recipe_id = request.data['recipe_id']
+            recipe = Recipe.objects.filter(id=recipe_id)
+            ingredient_list = recipe.values('ingredients')
+            user = User.objects.filter(username=request.user).first()
+            cart = ShoppingCart.objects.filter(user__id=user.id).first()
+            for key in ingredient_list:
+                single_ing = Ingredient.objects.get(id=key['ingredients'])
+                cart.ingredients.add(single_ing)
+            cart.save()
+            return JsonResponse({'success': True, 'message': ''})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+
+

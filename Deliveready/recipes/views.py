@@ -18,11 +18,11 @@ def recipe(request, recipe_id):
     # return redirect('users:login')
 
 def home(request):
-    if request.user.is_authenticated:
-        user = request.user
-        queryset = Recipe.objects.all()
-        context = {
-            "object_list": queryset,
-            "user": user
-        }
-        return render(request, "index.html", context)
+    # if request.user.is_authenticated:
+    user = request.user
+    queryset = Recipe.objects.all()
+    context = {
+        "object_list": queryset,
+        "user": user
+    }
+    return render(request, "index.html", context)
