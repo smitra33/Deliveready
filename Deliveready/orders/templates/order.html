@@ -1,44 +1,85 @@
 {% load static %}
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/order.css' %}">
+    <script src="{% static 'js/order.js' %}"></script>
 {% endblock %}
 {% block title %}
-    <title>Home</title>
+    <title>Order Summary</title>
 {% endblock %}
 
 {% block content %}
+    <div class="nav">
+       <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
+        <u1>   
+            <li><a href="default.asp">Home</a></li>
+            <li><a href="news.asp">Recipes</a></li>
+            <li><a href="contact.asp">Pantry</a></li>
+            <li style="float: right"><a href="about.asp">Cart</a></li>
+            <li style="float: right"><a href="view/1">Orders</a></li>
+        </u1>
+        
+    </div>
 
-<div class="container">
-    <div class="row">
-      <div class="col-md-6 offset-md-3">
-        <h2 class="text-center text-dark mt-5">Welcome to Deliveready!</h2>
-        <div class="card my-5">
 
-          <form class="card-body cardbody-color p-lg-5">
-
-            <div class="text-center">
-              <img src="{% static 'images/Deliveready.png' %}" class="center">
+    <body onload="getOrderInfo()">
+        <!-- This is how to comment!-->
+        <div class="white-background">
+            
+            <div class="title-test"> 
+                <h1 style="color:white"> '</h1>
+                <h1 style="color: #478E5F;"> Your Order Is Deliveready! </h1>
+                <hr size = "10" color = "black" style="width: 60%">
             </div>
 
-            <div class="mb-3">
-              <input type="text" class="form-control" id="Username" aria-describedby="emailHelp"
-                placeholder="User Name">
+            <div class="summary">
+                
+                <div class="order-info">
+                    <h2 style="margin-left: 100px; font-size: 21;"> ORDER INFORMATION </h2>
+                    <p style="margin-left: 100px"> <strong>Order #:</strong> <p2 id = "order-number"> </p2> </p>             
+                    <p style="margin-left: 100px"> <strong>Date:</strong> <p2 id = "date"></p2></p>
+                </div>
+                <div class="shipping">
+                    <h2 style="margin-left: 100px; font-size: 21;"> SHIPPING ADDRESS</h2>
+                    <p id = "name" style="margin-left: 100px"></p>
+                    <p id = "address" style="margin-left: 100px"></p>
+                    <p id = "phone" style="margin-left: 100px"> 123-456-7890 </p>   
+                </div>
             </div>
-            <div class="mb-3">
-              <input type="password" class="form-control" id="password" placeholder="password">
+            <p style="font-size: 30px; text-align: center"> <strong>ETA:</strong> <p2 id = "eta"></p2></p>
+            <div class="ingredients">
+                <h2 style="color: #478E5F"> INGREDIENTS ORDERED</h2>
+                <hr size = "2" color = "#478E5F">
+                <div class="ingredients-list">
+                    <table style="width:100%" id = "ingredients-table">
+                        <style>
+                            td {
+                                text-align: center;
+                                line-height: 200%;
+                            }
+                        </style>
+                        <tr>
+                            <th style="width:25%"></th>
+                            <th style="width:25%">Name</th>
+                            <th style="width:25%">Quantity</th>
+                            <th style="width:25%">Price</th>
+                        </tr>
+                        <div id = 'image_place'></div>
+
+
+                    </table>
+                </div>
             </div>
-            <div class="text-center"><button type="submit" class="btn btn-color px-5 mb-5 w-100">Login</button></div>
-            <div id="emailHelp" class="form-text text-center mb-5 text-dark">Not
-              Registered? <a href="#" class="text-dark fw-bold"> Create an
-                Account</a>
+
+            <div class="total">
+                <p>Subtotal: $<p2 id = "subtotal"></p2></p>
+                <p>Est.Taxes: $<p2 id = "tax"></p2></p>
+                <p>Delivery: FREE</p>
+                <p style="line-height: 200%"><strong style="color: #478E5F">Total:</strong> $<p2 id = "total"></p2></p>
             </div>
-          </form>
+
+
+            
         </div>
 
-      </div>
-    </div>
-  </div>
-
-    {% endblock content %}
+    </body>
+{% endblock content %}

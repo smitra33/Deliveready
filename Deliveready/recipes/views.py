@@ -26,3 +26,7 @@ def home(request):
         "user": user
     }
     return render(request, "index.html", context)
+  
+def make_recipe(request):
+    return render(request, "make_recipe.html")
+

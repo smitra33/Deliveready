@@ -10,4 +10,5 @@ urlpatterns = [
     path('api/ingredients_in_recipe/<int:recipe_id>/', api.IngredientsinRecipe.as_view(), name="ingredients_all"),
     path('api/recipe_view/<int:recipe_id>/', api.RecipeView.as_view(), name="recipe_view"),
     path('api/add_ingredients/', api.AddRecipeIngredientsToCart.as_view(), name="add_ingredients")
+    path('make_recipe',views.make_recipe)
 ]
