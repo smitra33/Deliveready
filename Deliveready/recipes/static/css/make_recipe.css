@@ -1,0 +1,50 @@
+.nav {
+    background-color: lightgrey;
+    height: 70px;
+    border: 0.5px solid black;
+}
+
+.nav u1 {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+li {
+    float: left;
+    margin-top: 10px;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.center {
+    display: inline-block;
+    width: 150;
+    margin-left: 600px;
+    margin-right: auto;
+}
+
+.make-recipe {
+    width: 1000px;
+    margin: auto;
+    text-align: center;
+    margin-top: 60px;
+    background-color: white;
+    height: 1000px;
+}
+
+
+
+body {
+    font-family: 'Segoe UI';
+    background-image: url("../images/foodback.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
