@@ -1,0 +1,98 @@
+
+.nav {
+    background-color: lightgrey;
+    height: 70px;
+    border: 0.5px solid black;
+}
+
+.nav u1 {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+li {
+    float: left;
+    margin-top: 10px;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.center {
+    display: inline-block;
+    width: 150;
+    margin-left: 600px;
+    margin-right: auto;
+}
+
+.title-test {
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 100px;
+
+}
+
+.summary {
+    border: 1px solid black;
+    height: 300px;
+    width: 1000px;
+    background-color: D9E7DD;
+    text-align: center;
+    margin: auto;
+
+}
+
+.summary .order-info {
+    height: 250px;
+    width: 500px;
+    float: left;
+    text-align: left;
+}
+
+.summary .shipping {
+    height: 250px;
+    float: left;
+    text-align: left;
+}
+
+.ingredients {
+    height: 500px;
+    width: 1000px;
+    margin: auto;
+}
+
+.ingredients .ingredients-list {
+    background-color: white;
+    height: 400px;
+    width: 1000px;
+    overflow-y: scroll
+}
+
+.total {
+    width: 1000px;
+    text-align: right;
+    font-size: 20px;
+    margin: auto;
+    margin-bottom: 50px;
+}
+
+body {
+    font-family: 'Segoe UI';
+    background-image: url("../images/foodback.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.white-background {
+    background-color: white;
+    width: 1150px;
+    margin: auto
+}
