@@ -13,4 +13,6 @@ urlpatterns = [
     path('api/add_select_ingredients/', api.AddSelectedIngredientsToCart.as_view(), name="add_select_ingredients"),
     path('api/check_select_ingredients/', api.CheckSelectedIngredientsToCart.as_view(), name="check_select_ingredients"),
     path('api/check_ingredients/', api.CheckIngredientsPantry.as_view(), name="add_ingredients"),
+    path('make_recipe/',views.make_recipe, name="make_recipe")
+
 ]
