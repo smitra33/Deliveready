@@ -44,7 +44,7 @@ li a {
     border: 1px solid black;
     height: 300px;
     width: 1000px;
-    background-color: D9E7DD;
+    background-color: #e6ebfb;
     text-align: center;
     margin: auto;
 
@@ -86,7 +86,7 @@ li a {
 
 body {
     font-family: 'Segoe UI';
-    background-image: url("../images/foodback.jpeg");
+    background-color: #FAEBEFFF;
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -94,5 +94,10 @@ body {
 .white-background {
     background-color: white;
     width: 1150px;
-    margin: auto
+    margin: auto;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.white-background:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from ingredients.models import Ingredient
 from .models import Recipe
 from django.views.generic import ListView
 from .forms import PostRecipe
@@ -28,11 +29,14 @@ def home(request):
     }
     return render(request, "index.html", context)
   
+
 def make_recipe(request):
     if request.method == "POST":
         form = PostRecipe(request.POST)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.save()
+            form.save_m2m()
             return redirect("/make_recipe")
     else:
         form = PostRecipe()

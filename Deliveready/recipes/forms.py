@@ -10,9 +10,11 @@ class DisplayIngredientName(forms.ModelMultipleChoiceField):
 
 
 class PostRecipe(ModelForm):
+
     class Meta:
         model = Recipe
         fields = '__all__'
+        
     ingredients = DisplayIngredientName(
         queryset=Ingredient.objects.all(),
     )
