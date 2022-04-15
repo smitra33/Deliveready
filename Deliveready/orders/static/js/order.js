@@ -13,7 +13,9 @@ let price = [];
 let picture = [];
 
 async function getOrderInfo(){
-    const response = await fetch('http://127.0.0.1:8000/order/view/1')
+    var id = order_id;
+    const response = await fetch(`http://127.0.0.1:8000/order/api/view/${id}/`);
+    //const response = await fetch('http://127.0.0.1:8000/order/api/view/1')
     orderInfo = await response.json();
     assignOrderInfo();
 }

@@ -1,6 +1,9 @@
 {% load static %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/order.css' %}">
+    <script>
+        var order_id = {{ order_id }};
+    </script>
     <script src="{% static 'js/order.js' %}"></script>
 {% endblock %}
 {% block title %}
@@ -12,7 +15,7 @@
        <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
         <u1>   
             <li><a href="default.asp">Home</a></li>
-            <li><a href="news.asp">Recipes</a></li>
+            <li><a href="news.asp">Recipes</a></li> 
             <li><a href="contact.asp">Pantry</a></li>
             <li style="float: right"><a href="about.asp">Cart</a></li>
             <li style="float: right"><a href="view/1">Orders</a></li>

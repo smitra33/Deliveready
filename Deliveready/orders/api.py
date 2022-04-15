@@ -70,3 +70,9 @@ class OrderView(APIView):
                 'address': address['address'], 'phone': phone['phone_number'],'quantity': quantity_list, 'quantity_unit': quantity_unit_list, \
                     'price': price_list, 'picture': picture_list}
         return JsonResponse(data, safe=False)
+
+class OrdersAll(APIView):
+    @action(detail=True, methods=['get'], url_path='orders_list', url_name='orders_list')
+    def get(self, request, *args, **kwargs):
+        orders = list(Order.objects.all().values('order_number', 'date', 'eta', 'cart'))
+        return JsonResponse(orders, safe=False)
