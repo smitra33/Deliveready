@@ -107,31 +107,31 @@ function addToPantryFromButton() {
     var ingredient = searchInput.value;
     if (ingredient === null) return;
     if (ingredient.length === 0) return;
-    addToPantryDatabase(ingredient);
+    // addToPantryDatabase(ingredient);
     addToPantry(ingredient);
 }
 
 addBtn.addEventListener('click', addToPantryFromButton); 
 
-async function addToPantryDatabase(targetIng) {
-    const response = await fetch(`http://127.0.0.1:8000/api/add_/`, {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify({: })
-    });
-    const json = await response.json()
-    console.log(json['success']);
-    if (json['success']){
-        var header = 'Success!'
-        var text = 'Ingredients from ' + recipeInfo.title + ' added to cart!';
-        displayModalContents(header, text);
-    }
-    else {
-        var header = 'Oops!'
-        var text = 'Sorry, something went wrong, an admin will contact you shortly.';
-        displayModalContents(header, text);
-    }
-}
+// async function addToPantryDatabase(targetIng) {
+//     const response = await fetch(`http://127.0.0.1:8000/api/add_/`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-type': 'application/json',
+//             'X-CSRFToken': getCookie('csrftoken')
+//         },
+//         body: JSON.stringify({: })
+//     });
+//     const json = await response.json()
+//     console.log(json['success']);
+//     if (json['success']){
+//         var header = 'Success!'
+//         var text = 'Ingredients from ' + recipeInfo.title + ' added to cart!';
+//         displayModalContents(header, text);
+//     }
+//     else {
+//         var header = 'Oops!'
+//         var text = 'Sorry, something went wrong, an admin will contact you shortly.';
+//         displayModalContents(header, text);
+//     }
+// }
