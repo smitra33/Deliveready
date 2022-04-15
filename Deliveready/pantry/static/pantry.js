@@ -1,11 +1,15 @@
 let pantryInfo = {}
 let ingredients = []
-let ingredientsQuantity = []
-
+const addBtn = document.getElementById('addBtn');
+let searchInput = document.querySelector('#searchInput');
+// const quantityInput = document.getElementById("quantityInput");
+const pantryList = document.getElementById("pantryList");
+const pantryImageArea = document.getElementById("pantryImageArea");
 
 async function getPantryInfo() {
-    const response = await fetch (`http://127.0.0.1:8000/pantry/api/view/${id}/`)
+    const response = await fetch (`http://127.0.0.1:8000/pantry/api/view/`)
     pantryInfo = await response.json();
+    console.log(pantryInfo);
     assignPantryInfo();
 }
 
@@ -13,26 +17,15 @@ function assignPantryInfo() {
     pantryInfo['ingredients'].forEach(ing => {
         ingredients.push(ing['name']);
     });
-    pantryInfo['quantity'].forEach(ing => {
-        ingredientsQuantity.push(ing['quantity']);
-    });
-    // displayElements();
+    displayElements();
 }
 
 function displayElements() {
     for (var i = 0; i<ingredients.length; i++) {
-        searchInput.value = ingredients[i];
-        quantityInput.value = ingredientsQuantity[i];
-        addPantryCard();
+        var targetItem = ingredients[i];
+        addToPantry(targetItem);
     }
 }
-
-
-const addBtn = document.getElementById('addBtn');
-const searchInput = document.querySelector('#searchInput');
-const quantityInput = document.getElementById("quantityInput");
-const pantryList = document.getElementById("pantryList");
-const pantryImageArea = document.getElementById("pantryImageArea");
 
 function deleteIngredient(e) {
     const parent = e.target.parentNode;
@@ -41,9 +34,9 @@ function deleteIngredient(e) {
     parent.remove();
 }
 
-function addPantryCard() {
-    var ingredient = searchInput.value;
-    var amount = quantityInput.value;
+function addPantryCard(ingredient) {
+    // var ingredient = searchInput.value;
+    // var amount = quantityInput.value;
     ingredient = ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
 
     const cardDiv = document.createElement("div");
@@ -60,32 +53,27 @@ function addPantryCard() {
     cardBodyDiv.classList.add("card-body", "card-text");
     cardBodyDiv.innerHTML = ingredient;
     
-    const quantitySpan = document.createElement("span");
-    quantitySpan.classList.add("center");
-    quantitySpan.setAttribute("id", "pantry" + ingredient + "CardQuantity");
-    quantitySpan.innerHTML ="Quantity = " + amount;
+    // const quantitySpan = document.createElement("span");
+    // quantitySpan.classList.add("center");
+    // quantitySpan.setAttribute("id", "pantry" + ingredient + "CardQuantity");
+    // quantitySpan.innerHTML ="Quantity = " + amount;
 
     cardDiv.appendChild(imgDiv);
     cardDiv.appendChild(cardBodyDiv);
-    cardDiv.appendChild(quantitySpan);
+    // cardDiv.appendChild(quantitySpan);
 
     pantryImageArea.appendChild(cardDiv);
 }
 
-
-function addToPantry() {
-    var ingredient = searchInput.value;
-    var amount = quantityInput.value;
-
+function addToPantry(ingredient) {
+    // var ingredient = searchInput.value;
+    // var amount = quantityInput.value;
+    if (ingredient.length === null) return;
     if (ingredient.length === 0) return;
-    if (amount === null) amount = 1;
-    if (amount <= 0) return;
 
-    ingredient = ingredient.charAt(0).toUpperCase() +ingredient.slice(1);
+    ingredient = ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
 
     if (document.getElementById("pantry" + ingredient) != null) {
-        document.getElementById("pantry" + ingredient + "CardQuantity").innerHTML = "Quantity = " + amount;
-        document.getElementById("pantry" + ingredient + "Quantity").innerHTML = "Quantity = " + amount;
         return;
     }
 
@@ -97,10 +85,10 @@ function addToPantry() {
     ingDiv.classList.add("my-0", "col-6");
     ingDiv.innerHTML = ingredient;
 
-    const spanQ = document.createElement("span");
-    spanQ.classList.add("text-muted");
-    spanQ.setAttribute("id", "pantry" + ingredient + "Quantity");
-    spanQ.innerHTML = amount;
+    // const spanQ = document.createElement("span");
+    // spanQ.classList.add("text-muted");
+    // spanQ.setAttribute("id", "pantry" + ingredient + "Quantity");
+    // spanQ.innerHTML = amount;
 
     const newBtn = document.createElement("button");
     newBtn.classList.add("btn", "btn-danger", "btn-sm");
@@ -108,11 +96,42 @@ function addToPantry() {
     newBtn.addEventListener("click", (e) => deleteIngredient(e));
 
     pantryItem.appendChild(ingDiv);
-    pantryItem.appendChild(spanQ);
+    // pantryItem.appendChild(spanQ);
     pantryItem.appendChild(newBtn);
 
     pantryList.appendChild(pantryItem);
-    addPantryCard();
+    addPantryCard(ingredient);
 }
 
-addBtn.addEventListener('click', addToPantry); 
+function addToPantryFromButton() {
+    var ingredient = searchInput.value;
+    if (ingredient === null) return;
+    if (ingredient.length === 0) return;
+    addToPantryDatabase(ingredient);
+    addToPantry(ingredient);
+}
+
+addBtn.addEventListener('click', addToPantryFromButton); 
+
+async function addToPantryDatabase(targetIng) {
+    const response = await fetch(`http://127.0.0.1:8000/api/add_/`, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({: })
+    });
+    const json = await response.json()
+    console.log(json['success']);
+    if (json['success']){
+        var header = 'Success!'
+        var text = 'Ingredients from ' + recipeInfo.title + ' added to cart!';
+        displayModalContents(header, text);
+    }
+    else {
+        var header = 'Oops!'
+        var text = 'Sorry, something went wrong, an admin will contact you shortly.';
+        displayModalContents(header, text);
+    }
+}
