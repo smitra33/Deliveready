@@ -9,13 +9,13 @@ from users.models import User
 from shoppingcart.models import ShoppingCart
 
 class PantryView(APIView):
-    @action(detail=True, methods=['get'], url_path='pantry_return', url_name='pantry_return')
+    @action(detail=True, methods=['get'], url_path='list', url_name='list')
     def get(self, request, pantry_id):
         pantry = Pantry.objects.filter(id=pantry_id)
         ingredients = pantry.values('ingredients')
         ingredient_list = []
         for key in ingredients:
-            ingredient_list.append(Ingredient.objects.filter(id=key['ingredients']).values('name').first())
+            ingredient_list.append(Ingredient.objects.filter(id=key['ingredients']).values('name', 'quantity').first())
         data = {'ingredients': ingredient_list}
         return JsonResponse(data, safe=False)
 

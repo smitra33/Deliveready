@@ -1,7 +1,10 @@
 let pantryInfo = {}
+let ingredients = []
+let ingredientsQuantity = []
+
 
 async function getPantryInfo() {
-    const response = await fetch ('http://127.0.0.1:8000/api/pantry_view/1')
+    const response = await fetch (`http://127.0.0.1:8000/pantry/api/view/${id}/`)
     pantryInfo = await response.json();
     assignPantryInfo();
 }
@@ -10,13 +13,18 @@ function assignPantryInfo() {
     pantryInfo['ingredients'].forEach(ing => {
         ingredients.push(ing['name']);
     });
-
-
-    displayElements();
+    pantryInfo['quantity'].forEach(ing => {
+        ingredientsQuantity.push(ing['quantity']);
+    });
+    // displayElements();
 }
 
 function displayElements() {
-    
+    for (var i = 0; i<ingredients.length; i++) {
+        searchInput.value = ingredients[i];
+        quantityInput.value = ingredientsQuantity[i];
+        addPantryCard();
+    }
 }
 
 
