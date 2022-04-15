@@ -33,12 +33,13 @@ function assignOrderInfo(){
     });
 
     orderInfo['quantity'].forEach(ing => {
-        quantity.push(ing['quantity']);
+        quantity.push(ing);
     });
 
-    orderInfo['quantity_unit'].forEach(ing => {
-        quantity_unit.push(ing['quantity_unit']);
-    });
+
+     orderInfo['quantity_unit'].forEach(ing => {
+         quantity_unit.push(ing['quantity_unit']);
+     });
 
     orderInfo['price'].forEach(ing => {
         price.push(ing['price']);
