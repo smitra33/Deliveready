@@ -2,7 +2,6 @@ let pantryInfo = {}
 let ingredients = []
 const addBtn = document.getElementById('addBtn');
 let searchInput = document.querySelector('#searchInput');
-// const quantityInput = document.getElementById("quantityInput");
 const pantryList = document.getElementById("pantryList");
 const pantryImageArea = document.getElementById("pantryImageArea");
 
@@ -35,8 +34,6 @@ function deleteIngredient(e) {
 }
 
 function addPantryCard(ingredient) {
-    // var ingredient = searchInput.value;
-    // var amount = quantityInput.value;
     ingredient = ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
 
     const cardDiv = document.createElement("div");
@@ -52,22 +49,14 @@ function addPantryCard(ingredient) {
     const cardBodyDiv =document.createElement("div");
     cardBodyDiv.classList.add("card-body", "card-text");
     cardBodyDiv.innerHTML = ingredient;
-    
-    // const quantitySpan = document.createElement("span");
-    // quantitySpan.classList.add("center");
-    // quantitySpan.setAttribute("id", "pantry" + ingredient + "CardQuantity");
-    // quantitySpan.innerHTML ="Quantity = " + amount;
 
     cardDiv.appendChild(imgDiv);
     cardDiv.appendChild(cardBodyDiv);
-    // cardDiv.appendChild(quantitySpan);
 
     pantryImageArea.appendChild(cardDiv);
 }
 
 function addToPantry(ingredient) {
-    // var ingredient = searchInput.value;
-    // var amount = quantityInput.value;
     if (ingredient.length === null) return;
     if (ingredient.length === 0) return;
 
@@ -85,18 +74,12 @@ function addToPantry(ingredient) {
     ingDiv.classList.add("my-0", "col-6");
     ingDiv.innerHTML = ingredient;
 
-    // const spanQ = document.createElement("span");
-    // spanQ.classList.add("text-muted");
-    // spanQ.setAttribute("id", "pantry" + ingredient + "Quantity");
-    // spanQ.innerHTML = amount;
-
     const newBtn = document.createElement("button");
     newBtn.classList.add("btn", "btn-danger", "btn-sm");
     newBtn.innerHTML = "x";
     newBtn.addEventListener("click", (e) => deleteIngredient(e));
 
     pantryItem.appendChild(ingDiv);
-    // pantryItem.appendChild(spanQ);
     pantryItem.appendChild(newBtn);
 
     pantryList.appendChild(pantryItem);
@@ -107,31 +90,26 @@ function addToPantryFromButton() {
     var ingredient = searchInput.value;
     if (ingredient === null) return;
     if (ingredient.length === 0) return;
-    // addToPantryDatabase(ingredient);
+    addToPantryDatabase(ingredient);
     addToPantry(ingredient);
 }
 
 addBtn.addEventListener('click', addToPantryFromButton); 
 
-// async function addToPantryDatabase(targetIng) {
-//     const response = await fetch(`http://127.0.0.1:8000/api/add_/`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-type': 'application/json',
-//             'X-CSRFToken': getCookie('csrftoken')
-//         },
-//         body: JSON.stringify({: })
-//     });
-//     const json = await response.json()
-//     console.log(json['success']);
-//     if (json['success']){
-//         var header = 'Success!'
-//         var text = 'Ingredients from ' + recipeInfo.title + ' added to cart!';
-//         displayModalContents(header, text);
-//     }
-//     else {
-//         var header = 'Oops!'
-//         var text = 'Sorry, something went wrong, an admin will contact you shortly.';
-//         displayModalContents(header, text);
-//     }
-// }
+async function addToPantryDatabase(targetIng) {
+    console.log(targetIng);
+    const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/`, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({'text':targetIng})
+    });
+    const json = await response.json()
+    console.log(json['success']);
+}
+
+function getCookie(name){
+    return document.cookie.match(';?\\s*csrftoken\\s*=\\s*([^;]*)')?.pop();
+}

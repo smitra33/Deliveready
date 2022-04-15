@@ -28,7 +28,6 @@ function displayElements() {
 }
 
 
-
 const addBtn = document.getElementById('cartAddBtn');
 const searchInput = document.querySelector('#cartSearchInput');
 const quantityInput = document.getElementById("cartQuantityInput");

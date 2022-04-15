@@ -12,13 +12,32 @@ class PantryView(APIView):
     @action(detail=True, methods=['get'], url_path='list', url_name='list')
     def get(self, request):
         user = User.objects.filter(username=request.user).first() 
-        print(request.user)
         ingredients = Pantry.objects.filter(user_id=user.id).values('ingredients')
         ingredient_list = []
         for key in ingredients:
             ingredient_list.append(Ingredient.objects.filter(id=key['ingredients']).values('name', 'quantity').first())
         data = {'ingredients': ingredient_list}
         return JsonResponse(data, safe=False)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            ing_dict = request.data
+            user = User.objects.filter(username=request.user).first()
+            pantry = Pantry.objects.filter(user__id=user.id).first()
+            for key in ing_dict.items():
+                ing_name = ing_dict['text']
+                user = User.objects.filter(username=request.user).first()
+                pantry = Pantry.objects.filter(user__id=user.id).first()
+                created_ingredient = Ingredient.objects.create(name=ing_name, quantity=1) 
+                created_ingredient.save()
+                pantry.ingredients.add(created_ingredient).save()
+            return JsonResponse({'success': True, 'message': ''})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+
+    # def delete(self, request, *args, **kwargs):
+    #     try:
+            
 
 # class AddIngredientToPantry(APIView):
 #     @action(detail=True, methods=['post'])
