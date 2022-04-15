@@ -11,17 +11,34 @@
 {% endblock %}
 
 {% block content %}
-    <div class="nav">
+ <!----   <div class="nav">
        <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
         <u1>   
             <li><a href="default.asp">Home</a></li>
             <li><a href="news.asp">Recipes</a></li> 
             <li><a href="contact.asp">Pantry</a></li>
             <li style="float: right"><a href="about.asp">Cart</a></li>
-            <li style="float: right"><a href="view/1">Orders</a></li>
+            <li style="float: right"><a href="../all">Orders</a></li>
         </u1>
         
-    </div>
+    </div> -->
+
+    <header>
+        <div class="container">
+          <h1 class="logo"> <img src="{% static 'images/Deliveready-modified.png' %}" width="170" height="70"> </h1>
+    
+          <nav>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Recipes</a></li>
+              <li><a href="#">Pantry</a></li>
+              <li><a href="#">Orders</a></li>
+              <li><a href="#">Cart</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header> 
+
 
 
     <body onload="getOrderInfo()">

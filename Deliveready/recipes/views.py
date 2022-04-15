@@ -34,9 +34,8 @@ def make_recipe(request):
     if request.method == "POST":
         form = PostRecipe(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.save()
-            form.save_m2m()
+            form.save()
+            
             return redirect("/make_recipe")
     else:
         form = PostRecipe()
