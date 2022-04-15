@@ -27,7 +27,15 @@ function displayRecipeInfo(){
 }
 
 async function addToCart() {
-    const response = await fetch(`http://127.0.0.1:8000/api/add_ingredients/`, {
+    const response = await fetch(`http://127.0.0.1:8000/api/check_ingredients/`);
+    var duplicate_ingredients = await response.json();
+    // if (duplicate_ingredients){
+    //
+    // }
+}
+
+async function addRecipeToCart() {
+    const response = await fetch(`http://127.0.0.1:8000/api/add_recipe_ingredients/`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json',
