@@ -1,0 +1,48 @@
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/make_recipe.css' %}">
+{% endblock %}
+{% block title %}
+    <title>Make Recipe</title>
+{% endblock %}
+
+{% block content %}
+
+<header>
+    <div class="container">
+      <h1 class="logo"> <img src="{% static 'images/Deliveready-modified.png' %}" width="170" height="70"> </h1>
+
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Recipes</a></li>
+          <li><a href="#">Pantry</a></li>
+          <li><a href="#">Orders</a></li>
+          <li><a href="#">Cart</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header> 
+ 
+    <body>
+
+        <div class="make-recipe">
+            <div class="title-text">
+                <h1 style="color: white;"> '</h1>
+                <h1 style="color: #478E5F; text-align: center;"> Make a Recipe! </h1>
+                <hr size = "10" color = "black" style="width: 60%">
+            </div>
+
+            <form class = "recipe-maker-form" method = "post">
+                <table>
+                    {{ form }} 
+                </table>
+                {% csrf_token %}
+                <div class = "button-placement">
+                    <button type = "submit" class = "button"> Create </button>
+                </div>
+            </form>       
+       
+    </body>
+
+{% endblock content %}
