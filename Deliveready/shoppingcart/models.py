@@ -4,7 +4,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from ingredients.models import Ingredient
 
-
 class ShoppingCart(models.Model):
     ingredients = models.ManyToManyField(Ingredient)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shoppingcart')
@@ -15,3 +14,7 @@ def create_shoppingcart(sender, instance, created, **kwargs):
     if created:
         ShoppingCart.objects.create(user=instance)
 
+class CartIngredient(models.Model):
+    ingredients = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='cartingredient')
+    shopping_cart = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE, related_name='cartingredient')
+    quantity = models.IntegerField(default=1)
