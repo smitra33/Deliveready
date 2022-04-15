@@ -11,7 +11,7 @@ from pantry.models import Pantry
 
 
 class IngredientsAll(APIView):
-    @action(detail=True, methods=['get'], url_path='ingredients_list', url_name='ingredients_list')
+    @action(detail=True, methods=['get'], url_path='ingredients_all', url_name='ingredients_all')
     def get(self, request, *args, **kwargs):
         ingredients = list(Ingredient.objects.all().values('name', 'quantity', 'quantity_unit', 'price'))
         return JsonResponse(ingredients, safe=False)
@@ -59,6 +59,77 @@ class RecipeView(APIView):
 #         except Exception as e:
 #             return JsonResponse({'success': False, 'message': str(e)})
 
+# class CheckIngredientsPantry(APIView):
+#     @action(detail=True, methods=['get'], url_path='check_ingredients', url_name='check_ingredients')
+#     def get(self, request):
+#         try:
+#             user = User.objects.filter(username=request.user).first()
+#             cart_list = CartIngredient.objects.filter(user__id=user.id).values('ingredients')
+#             pantry_list = Pantry.objects.filter(user__id=user.id).values('ingredients')
+#             duplicates = [elem for elem in cart_list if elem in pantry_list]
+#             non_duplicates = [elem for elem in cart_list if elem not in pantry_list]
+#             dup_list = []
+#             non_dup_list = []
+#             for dup in duplicates:
+#                 dup_list.append(Ingredient.objects.filter(id=dup['ingredients']).values('name').first())
+#             for ndup in non_duplicates:
+#                 non_dup_list.append(Ingredient.objects.filter(id=ndup['ingredients']).values('name').first())
+#             return JsonResponse({'success': True, 'duplicates': dup_list, 'non-dupes': non_dup_list})
+#         except Exception as e:
+#             return JsonResponse({'success': False, 'message': str(e)})
+
+class CheckIngredientsPantry(APIView):
+    @action(detail=True, methods=['get'], url_path='check_ingredients', url_name='check_ingredients')
+    def get(self, request, recipe_id):
+        try:
+            recipe_list = Recipe.objects.filter(id=recipe_id).values('ingredients')
+            user = User.objects.filter(username=request.user).first()
+            pantry_list = Pantry.objects.filter(user__id=user.id).values('ingredients')
+            duplicates = [elem for elem in recipe_list if elem in pantry_list]
+            non_duplicates = [elem for elem in recipe_list if elem not in pantry_list]
+            dup_list = []
+            non_dup_list = []
+            for dup in duplicates:
+                dup_list.append(Ingredient.objects.filter(id=dup['ingredients']).values('name').first())
+            for ndup in non_duplicates:
+                non_dup_list.append(Ingredient.objects.filter(id=ndup['ingredients']).values('name').first())
+            return JsonResponse({'success': True, 'duplicates': dup_list, 'non-dupes': non_dup_list})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+
+class CheckIngredientsCart(APIView):
+    @action(detail=True, methods=['get'], url_path='check_ingredients', url_name='check_ingredients')
+    def get(self, request, recipe_id):
+        try:
+            recipe_list = Recipe.objects.filter(id=recipe_id).values('ingredients')
+            user = User.objects.filter(username=request.user).first()
+            cart = ShoppingCart.objects.filter(user__id=user.id).first()
+            cart_list = CartIngredient.objects.filter(shopping_cart_id=cart.id).values('ingredients')
+            duplicates = [elem for elem in cart_list if elem in cart_list]
+            non_duplicates = [elem for elem in recipe_list if elem not in cart_list]
+            dup_list = []
+            non_dup_list = []
+            for dup in duplicates:
+                dup_list.append(Ingredient.objects.filter(id=dup['ingredients']).values('name').first())
+            for ndup in non_duplicates:
+                non_dup_list.append(Ingredient.objects.filter(id=ndup['ingredients']).values('name').first())
+            return JsonResponse({'success': True, 'duplicates': dup_list, 'non-dupes': non_dup_list})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+
+class CheckEmptyPantry(APIView):
+    @action(detail=True, methods=['get'], url_path='check_empty_pantry', url_name='check_empty_pantry')
+    def get(self, request):
+        try:
+            empty_pantry = False
+            user = User.objects.filter(username=request.user).first()
+            pantry_list = Pantry.objects.filter(user__id=user.id).values('ingredients')
+            if pantry_list is None:
+                empty_pantry = True
+            return JsonResponse({'success': True, 'empty_pantry': empty_pantry})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+
 class AddRecipeIngredientsToCart(APIView):
     @action(detail=True, methods=['post'])
     def post(self, request, *args, **kwargs):
@@ -88,34 +159,30 @@ class AddSelectedIngredientsToCart(APIView):
                 single_ing = Ingredient.objects.get(name=key)
                 quantity = int(value)
                 product = CartIngredient.objects.filter(ingredients_id=single_ing.id).filter(shopping_cart_id=cart.id).first()
-                product.quantity = quantity
-                product.save()
+                if product:
+                    product.quantity = quantity
+                    product.save()
             return JsonResponse({'success': True, 'message': ''})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
 
 #retrieves ingredient quantity information in shopping cart
-#output is dictionary list of ingredients, quantity, price
 class CheckSelectedIngredientsToCart(APIView):
     @action(detail=True, methods=['post'])
     def post(self, request, *args, **kwargs):
-        return JsonResponse(True, safe=False)
-
-class CheckIngredientsPantry(APIView):
-    @action(detail=True, methods=['get'], url_path='check_ingredients', url_name='check_ingredients')
-    def get(self, request):
         try:
+            ing_list = request.data['selected']
             user = User.objects.filter(username=request.user).first()
-            cart_list = ShoppingCart.objects.filter(user__id=user.id).values('ingredients')
-            pantry_list = Pantry.objects.filter(user__id=user.id).values('ingredients')
-            duplicates = [elem for elem in cart_list if elem in pantry_list]
-            non_duplicates = [elem for elem in cart_list if elem not in pantry_list]
-            dup_list = []
-            non_dup_list = []
-            for dup in duplicates:
-                dup_list.append(Ingredient.objects.filter(id=dup['ingredients']).values('name').first())
-            for ndup in non_duplicates:
-                non_dup_list.append(Ingredient.objects.filter(id=ndup['ingredients']).values('name').first())
-            return JsonResponse({'success': True, 'duplicates': dup_list, 'non-dupes': non_dup_list})
+            cart = ShoppingCart.objects.filter(user__id=user.id).first()
+            check_cart = {}
+            for i in range(len(ing_list)):
+                single_ing = Ingredient.objects.get(name=ing_list[i])
+                cart_item = CartIngredient.objects.filter(ingredients_id=single_ing.id).filter(shopping_cart_id=cart.id).first()
+                if cart_item:
+                    check_cart[ing_list[i]] = cart_item.quantity
+            return JsonResponse({'success': True, 'check_cart': check_cart})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
+
+
+
