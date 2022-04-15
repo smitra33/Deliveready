@@ -29,8 +29,23 @@ function displayElements() {
 function deleteIngredient(e) {
     const parent = e.target.parentNode;
     const target = document.getElementById(parent.getAttribute('id') + "Card");
+    var targetIng = parent.getAttribute('id').replace("pantry","");
+    deleteIngFromPantry(targetIng);                                                         // DDELETE FUNCTION
     target.remove();
     parent.remove();
+}
+
+async function deleteIngFromPantry(targetIng) {
+    const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/`, {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({'text':targetIng})
+    });
+    const json = await response.json()
+    console.log(json['success']);
 }
 
 function addPantryCard(ingredient) {
@@ -47,7 +62,7 @@ function addPantryCard(ingredient) {
     // ^^^ change to url for images later and change to JPG
 
     const cardBodyDiv =document.createElement("div");
-    cardBodyDiv.classList.add("card-body", "card-text");
+    cardBodyDiv.classList.add("card-body", "card-text", "pantryCardTitle");
     cardBodyDiv.innerHTML = ingredient;
 
     cardDiv.appendChild(imgDiv);
@@ -61,10 +76,6 @@ function addToPantry(ingredient) {
     if (ingredient.length === 0) return;
 
     ingredient = ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
-
-    if (document.getElementById("pantry" + ingredient) != null) {
-        return;
-    }
 
     var pantryItem = document.createElement('li');
     pantryItem.classList.add("list-group-item", "d-flex", "justify-content-between", "lh-sm");
@@ -90,6 +101,9 @@ function addToPantryFromButton() {
     var ingredient = searchInput.value;
     if (ingredient === null) return;
     if (ingredient.length === 0) return;
+    if (document.getElementById("pantry" + ingredient.charAt(0).toUpperCase() + ingredient.slice(1)) != null) {
+        return;
+    }
     addToPantryDatabase(ingredient);
     addToPantry(ingredient);
 }
@@ -97,7 +111,7 @@ function addToPantryFromButton() {
 addBtn.addEventListener('click', addToPantryFromButton); 
 
 async function addToPantryDatabase(targetIng) {
-    console.log(targetIng);
+    targetIng = targetIng.charAt(0).toUpperCase() + targetIng.slice(1);
     const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/`, {
         method: 'POST',
         headers: {
