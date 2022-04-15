@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block content %}
+<!----
 
-    <!-- Navigation Bar-->
     <div class="nav">
         <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
          <u1>   
@@ -20,7 +20,23 @@
              <li style="float: right"><a href="about.asp">Orders</a></li>
          </u1>
          
-     </div>
+     </div> -->
+
+     <header>
+        <div class="container">
+          <h1 class="logo"> <img src="{% static 'images/Deliveready-modified.png' %}" width="170" height="70"> </h1>
+    
+          <nav>
+            <ul>
+              <li><a href="../../../../home/">Home</a></li>
+              <li><a href="../../../../home/">Recipes</a></li>
+              <li><a href="../../../pantry/">Pantry</a></li>
+              <li><a href="../../../order/view/all">Orders</a></li>
+              <li><a href="../../../shoppingcart/">Cart</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header> 
 
      <body>
 
