@@ -17,7 +17,7 @@
 {% block content %}
 <header>
     <div class="container">
-      <h1 class="logo"> <img src="{% static 'images/Deliveready.png' %}" width="170" height="70"> </h1>
+      <h1 class="logo"> <img src="{% static 'images/Deliveready-modified.png' %}" width="170" height="70"> </h1>
 
       <nav>
         <ul>
@@ -32,7 +32,7 @@
 </header>
 
     <body onload="getRecipeInfo()">
-    <div style="text-align: center; padding-top: 20px;"><a href="{% url 'recipes:main' %}" type="button" class="btn btn-secondary btn-lg">Back</a></div>
+    <div style="text-align: center; padding-top: 20px;"><a href="{% url 'recipes:home' %}" type="button" class="btn btn-secondary btn-lg">Back</a></div>
     <div style="text-align: center; padding-top: 10px; color: #5b80b2"><button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#myModal" onclick="addToCart()">Add to Cart</button></div>
     <div class='container-fluid'>
         <div class="card mx-auto col-md-3 col-10 mt-5 pt-4">
