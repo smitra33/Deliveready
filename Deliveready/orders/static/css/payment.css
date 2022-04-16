@@ -108,6 +108,7 @@ nav a:hover::before {
     text-align: center;
     margin-top: 60px;
     background-color: white;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 .payment-details {
@@ -169,7 +170,7 @@ nav a:hover::before {
 
 body {
     font-family: 'Segoe UI';
-    background-image: url("../images/foodback.jpeg");
+    background-color: ghostwhite;
     background-size: cover;
     background-repeat: no-repeat;
 }

@@ -134,7 +134,7 @@ nav a:hover::before {
 
 body {
     font-family: 'Segoe UI';
-    background-image: url("../images/foodback.jpeg");
+    background-image: url("../images/grayback.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-color: ghostwhite;
