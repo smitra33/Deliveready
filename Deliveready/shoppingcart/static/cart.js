@@ -1,6 +1,7 @@
 
 let ingredientsList = [];
 let quantityList = [];
+let priceList = [];
 
 async function getCartInfo() {
     const response = await fetch (`http://127.0.0.1:8000/shoppingcart/api/view/`)
@@ -16,6 +17,9 @@ function assignCartInfo() {
     cartInfo['quantity'].forEach(ing => {
         quantityList.push(ing['quantity']);
     });
+    cartInfo['price'].forEach(ing => {
+        priceList.push(ing['price']);
+    });
     displayElements();
 }
 
@@ -23,7 +27,11 @@ function displayElements() {
     for (var i = 0; i<ingredientsList.length; i++) {
         var item = ingredientsList[i];
         var amount = quantityList[i];
-        addToPantry(item, amount);
+        var price = priceList[i];
+        if (amount <= 0) {
+            amount = 1;
+        }
+        addItemSummary(item, amount, price);
     }
 }
 
@@ -37,11 +45,27 @@ const summaryPill = document.getElementById("summaryQuantityTotal");
 function deleteItem(e) {
     const parent = e.target.parentNode;
     const target = document.getElementById(parent.getAttribute('id') +"Card");
+    var targetIng = parent.getAttribute('id').replace("cardSummary", "");
+    deleteIngFromCart(targetIng);
     target.remove();
     parent.remove();
 }
 
-function addItemCard(item, amount) {
+async function deleteIngFromCart(targetIng, amount) {
+    targetIng = targetIng.charAt(0).toUpperCase() + targetIng.slice(1);
+    const response = await fetch(`http://127.0.0.1:8000/shoppingcart/api/view/`, {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({'text':targetIng})
+    });
+    const json = await response.json()
+    console.log(json['success']);
+}
+
+function addItemCard(item, amount, price) {
     item = item.charAt(0).toUpperCase() + item.slice(1);
 
     const cardDiv = document.createElement("div");
@@ -62,12 +86,12 @@ function addItemCard(item, amount) {
 
     const cardPricePerItem = document.createElement("p"); 
     cardPricePerItem.classList.add("card-price");
-    cardPricePerItem.innerHTML = "$1.99 per item";
+    cardPricePerItem.innerHTML = "$" + price + " per item";
 
     const cardTotalPrice = document.createElement("p");
     cardTotalPrice.classList.add("card-price");
     cardTotalPrice.setAttribute('id', "cartSummary" + item + "CardTotal");
-    cardTotalPrice.innerHTML = "Total = "
+
 
     cardBodyDiv.appendChild(cardTitle);
     cardBodyDiv.appendChild(cardPricePerItem);
@@ -79,7 +103,7 @@ function addItemCard(item, amount) {
     cartCardArea.appendChild(cardDiv);
 }
 
-function addItemSummary(item, amount) {
+function addItemSummary(item, amount, price) {
 
     if (item.length === 0) return;
     if (amount === null) amount = 1;
@@ -87,12 +111,12 @@ function addItemSummary(item, amount) {
 
     item = item.charAt(0).toUpperCase() + item.slice(1);
 
-    if (document.getElementById("cartSummary"+item) != null) {
+    if (document.getElementById("cartSummary" + item) != null) {
+        var semitotal = Number(price) * Number(amount)
         document.getElementById("cartSummary" + item + "Title").innerHTML = item + " x" + amount;
-        document.getElementById("cartSummary" + item + "Total").innerHTML = "PPI * " + amount + " = $99.99";
+        document.getElementById("cartSummary" + item + "Total").innerHTML = price + "*" + amount + "=" + semitotal;
         
         document.getElementById("cartSummary" + item + "CardTitle").innerHTML = item + " x" + amount;
-        document.getElementById("cartSummary" + item + "CardTotal").innerHTML = "Total = ";
         return;
     }
 
@@ -110,7 +134,8 @@ function addItemSummary(item, amount) {
     const cartSumQuantity = document.createElement("small");
     cartSumQuantity.classList.add("text-muted");
     cartSumQuantity.setAttribute('id', "cartSummary" + item + "Total");
-    cartSumQuantity.innerHTML = "PPI * " + amount + " = $99.99";
+    var semitotal = Number(price) * Number(amount)
+    cartSumQuantity.innerHTML = price + "*" + amount + "=" + semitotal;
 
     const newBtn = document.createElement("button");
     newBtn.classList.add("btn", "btn-danger", "btn-sm");
@@ -123,16 +148,17 @@ function addItemSummary(item, amount) {
     cartSummaryItem.appendChild(sumDiv);
     cartSummaryItem.appendChild(newBtn);
     cartList.appendChild(cartSummaryItem);
-    addItemCard(item, amount);
+    addItemCard(item, amount, price);
 }
 
 function addItemFromButton() {
     var item = searchInput.value;
     var amount = quantityInput.value;
-    
+    var price = 0;
+    // get price from database somehow
     // if (item === null) return;
     // if (item.length === 0) return;
-    addItemSummary(item, amount);
+    addItemSummary(item, amount, price);
     addIngredientToDatabase(item,amount);
 }
 
@@ -146,7 +172,7 @@ async function addIngredientToDatabase(targetIng, amount) {
             'Content-type': 'application/json',
             'X-CSRFToken': getCookie('csrftoken')
         },
-        body: JSON.stringify({'text':targetIng, 'quantity':amount})
+        body: JSON.stringify({'text':targetIng, 'amount':amount})
     });
     const json = await response.json()
     console.log(json['success']);

@@ -39,12 +39,35 @@ class ShoppingCartView(APIView):
         data = {'ingredients': cart_ingredient_list, 'quantity': quantity_list, 'price': price_list, 'totalPerItem' : total_list, 'total' : total}
         return JsonResponse(data, safe=False)
 
-    # def post (self, request, *args, **kwargs):
-    #     try: 
-    #         cart_id = request.data['shopping_cart_id']
-    #         cartIng = CartIngredient.objects.filter(shopping_cart_id =cart_id)
-            
+    def post (self, request, *args, **kwargs):
+        try:
+            ing_dict = request.data
+            user = User.objects.filter(username=request.user).first()
+            shopcart = ShoppingCart.objects.filter(user_id = user.id).first()
+            for key in ing_dict.items():
+                ing_name = ing_dict['text']
+                print(ing_name)
+                ing_quan = ing_dict['amount']
+                print(ing_quan)
+                if Ingredient.objects.get_or_create(name=ing_name) == False:
+                    ing_id = Ingredient.objects.filter(name=ing_name).first()
+                else: 
+                    ing_id = Ingredient.objects.filter(name=ing_name).first()
+                CartIngredient.objects.create(quantity = ing_quan, ingredients_id = ing_id.id, shopping_cart_id = shopcart.id)
+            return JsonResponse({'success': True, 'message': ''})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
 
-    #         return JsonResponse({'success': True, 'message': ''})
-    #     except Exception as e:
-    #         return JsonResponse({'success': False, 'message': str(e)})
+    def delete (self, request, *args, **kwargs):
+        try: 
+            ing_dict = request.data
+            user = User.objects.filter(username=request.user).first()
+            shopcart = ShoppingCart.objects.filter(user_id = user.id).first()
+            for key in ing_dict.items():
+                ing_name = ing_dict['text']
+                cartIngs = CartIngredient.objects.filter(shopping_cart_id = shopcart.id).first()
+                cartIngs.delete()
+            return JsonResponse({'success': True, 'message': ''})
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})     
+

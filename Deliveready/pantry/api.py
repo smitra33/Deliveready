@@ -38,6 +38,7 @@ class PantryView(APIView):
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
 
+
     def delete(self, request, *args, **kwargs):
         try:
             ing_dict = request.data
@@ -47,7 +48,6 @@ class PantryView(APIView):
                 ing_name = ing_dict['text']
                 desired = pantry.ingredients.filter(name=ing_name).first()
                 desired.delete()
-                return JsonResponse({'success': True, 'message': ''})
             return JsonResponse({'success': True, 'message': ''})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})     
