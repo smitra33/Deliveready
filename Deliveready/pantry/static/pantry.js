@@ -56,10 +56,11 @@ function addPantryCard(ingredient) {
     cardDiv.setAttribute('id', "pantry" + ingredient + "Card");
 
     const imgDiv = document.createElement("img");
+    imgDiv.setAttribute('id', ingredient + "CardPic");
     imgDiv.classList.add("card-img", "card-img-top");
     var image_url = ingredient.toLowerCase() + ".PNG";
-    imgDiv.src = "{ % url 'pantry:assets'} ${image_url}";
-    // imgDiv.src = "/pantry/assets/" + ingredient.toLowerCase() + ".PNG"; 
+    
+    imgDiv.src = "/pantry/assets/" + ingredient.toLowerCase() + ".PNG"; 
 
     // ^^^ change to url for images later and change to JPG
 

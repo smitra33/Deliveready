@@ -1,7 +1,10 @@
-
 let ingredientsList = [];
 let quantityList = [];
 let priceList = [];
+
+// WHEN YOU ADD INGREDEINT FROM BUTTON JUST SEND THE INFO TO THE DATABASE, MAKE IT AND THEN PULL WITH GETCARTINFO ***
+
+
 
 async function getCartInfo() {
     const response = await fetch (`http://127.0.0.1:8000/shoppingcart/api/view/`)
@@ -15,7 +18,7 @@ function assignCartInfo() {
         ingredientsList.push(ing['name']);
     });
     cartInfo['quantity'].forEach(ing => {
-        quantityList.push(ing['quantity']);
+        quantityList.push(ing);
     });
     cartInfo['price'].forEach(ing => {
         priceList.push(ing['price']);
@@ -27,10 +30,8 @@ function displayElements() {
     for (var i = 0; i<ingredientsList.length; i++) {
         var item = ingredientsList[i];
         var amount = quantityList[i];
+        console.log(amount);
         var price = priceList[i];
-        if (amount <= 0) {
-            amount = 1;
-        }
         addItemSummary(item, amount, price);
     }
 }
@@ -86,7 +87,7 @@ function addItemCard(item, amount, price) {
 
     const cardPricePerItem = document.createElement("p"); 
     cardPricePerItem.classList.add("card-price");
-    cardPricePerItem.innerHTML = "$" + price + " per item";
+    cardPricePerItem.innerHTML = price + " per item";
 
     const cardTotalPrice = document.createElement("p");
     cardTotalPrice.classList.add("card-price");
@@ -106,16 +107,19 @@ function addItemCard(item, amount, price) {
 function addItemSummary(item, amount, price) {
 
     if (item.length === 0) return;
-    if (amount === null) amount = 1;
+    // if (amount === null) amount = 1;
     if (amount <= 0) return;
 
     item = item.charAt(0).toUpperCase() + item.slice(1);
 
+    console.log(price);
+    console.log(amount);
+
     if (document.getElementById("cartSummary" + item) != null) {
         var semitotal = Number(price) * Number(amount)
-        document.getElementById("cartSummary" + item + "Title").innerHTML = item + " x" + amount;
+        document.getElementById("cartSummary" + item + "Title").innerHTML = item + " x" + amount
         document.getElementById("cartSummary" + item + "Total").innerHTML = price + "*" + amount + "=" + semitotal;
-        
+        //document.getElementById("cartSummary" + item + "CardTitle").innerHTML = "Apple x2";
         document.getElementById("cartSummary" + item + "CardTitle").innerHTML = item + " x" + amount;
         return;
     }
@@ -135,7 +139,7 @@ function addItemSummary(item, amount, price) {
     cartSumQuantity.classList.add("text-muted");
     cartSumQuantity.setAttribute('id', "cartSummary" + item + "Total");
     var semitotal = Number(price) * Number(amount)
-    cartSumQuantity.innerHTML = price + "*" + amount + "=" + semitotal;
+    cartSumQuantity.innerHTML = price + "*" + amount + "=" + semitotal;  // chnage back
 
     const newBtn = document.createElement("button");
     newBtn.classList.add("btn", "btn-danger", "btn-sm");
@@ -155,11 +159,11 @@ function addItemFromButton() {
     var item = searchInput.value;
     var amount = quantityInput.value;
     var price = 0;
-    // get price from database somehow
-    // if (item === null) return;
-    // if (item.length === 0) return;
-    addItemSummary(item, amount, price);
+
+    //addItemSummary(item, amount, price);
     addIngredientToDatabase(item,amount);
+    getCartInfo();
+    window.location.reload();
 }
 
 addBtn.addEventListener('click', addItemFromButton); 
