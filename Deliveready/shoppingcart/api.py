@@ -15,7 +15,7 @@ class ShoppingCartView(APIView):
         cart = ShoppingCart.objects.filter(id=user.id)
         cart_ingredients = CartIngredient.objects.filter(shopping_cart_id=user.id)
 
-        cart_ingredient_list = []
+        cart_ingredient_list = [] 
         quantity_list = []
         quantity_unit_list = []
         price_list = []

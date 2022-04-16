@@ -3,7 +3,7 @@ let ingredientsList = [];
 let quantityList = [];
 
 async function getCartInfo() {
-    const response = await fetch (`http://127.0.0.1:8000/cart/api/view/`)
+    const response = await fetch (`http://127.0.0.1:8000/shoppingcart/api/view/`)
     cartInfo = await response.json();
     console.log(cartInfo);
     assignCartInfo();
@@ -129,8 +129,9 @@ function addItemSummary(item, amount) {
 function addItemFromButton() {
     var item = searchInput.value;
     var amount = quantityInput.value;
-    if (ingredient === null) return;
-    if (ingredient.length === 0) return;
+    
+    // if (item === null) return;
+    // if (item.length === 0) return;
     addItemSummary(item, amount);
     addIngredientToDatabase(item,amount);
 }
@@ -139,7 +140,7 @@ addBtn.addEventListener('click', addItemFromButton);
 
 async function addIngredientToDatabase(targetIng, amount) {
     targetIng = targetIng.charAt(0).toUpperCase() + targetIng.slice(1);
-    const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/`, {
+    const response = await fetch(`http://127.0.0.1:8000/shoppingcart/api/view/`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json',
