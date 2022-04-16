@@ -112,8 +112,8 @@ function addItemSummary(item, amount, price) {
 
     item = item.charAt(0).toUpperCase() + item.slice(1);
 
-    console.log(price);
-    console.log(amount);
+    // console.log(price);
+    // console.log(amount);
 
     if (document.getElementById("cartSummary" + item) != null) {
         var semitotal = Number(price) * Number(amount)
