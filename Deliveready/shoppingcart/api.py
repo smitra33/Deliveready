@@ -33,11 +33,18 @@ class ShoppingCartView(APIView):
             quantity = cart_ingredient.quantity
             total_list.append(float(quantity) * float(price['price']))
         
-
         for i in total_list:
             total += i
         
-
         data = {'ingredients': cart_ingredient_list, 'quantity': quantity_list, 'price': price_list, 'totalPerItem' : total_list, 'total' : total}
         return JsonResponse(data, safe=False)
 
+    # def post (self, request, *args, **kwargs):
+    #     try: 
+    #         cart_id = request.data['shopping_cart_id']
+    #         cartIng = CartIngredient.objects.filter(shopping_cart_id =cart_id)
+            
+
+    #         return JsonResponse({'success': True, 'message': ''})
+    #     except Exception as e:
+    #         return JsonResponse({'success': False, 'message': str(e)})

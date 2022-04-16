@@ -24,15 +24,16 @@ class PantryView(APIView):
 
     def post(self, request, *args, **kwargs):
         try:
-            pantry_id = request.data['pantry_id']
-            pantry = Pantry.objects.filter(id=pantry_id)
-            ingredient_list = pantry.values('ingredients')
+            ing_dict = request.data
             user = User.objects.filter(username=request.user).first()
-            cart = ShoppingCart.objects.filter(user__id=user.id).first()
-            for key in ingredient_list:
-                single_item = Ingredient.objects.get(id=key['ingredients'])
-                cart.ingredients.add(single_item)
-            cart.save()
+            pantry = Pantry.objects.filter(user__id=user.id).first()
+            for key in ing_dict.items():
+                ing_name = ing_dict['text']  
+                if Ingredient.objects.get_or_create(name=ing_name) == False:
+                    desired_ingredient = Ingredient.objects.filter(name=ing_name).first()
+                else: 
+                    desired_ingredient = Ingredient.objects.filter(name=ing_name).first()
+                pantry.ingredients.add(desired_ingredient).save()
             return JsonResponse({'success': True, 'message': ''})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
