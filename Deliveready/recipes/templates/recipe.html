@@ -1,6 +1,5 @@
 {% load static %}
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/recipe.css' %}">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -9,16 +8,30 @@
         var recipe_id = {{ recipe_id }};
     </script>
     <script src="{% static 'js/recipe.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/recipe.css' %}">
 {% endblock %}
 {% block title %}
     <title>Home</title>
 {% endblock %}
 
 {% block content %}
+<header>
+    <div class="container">
+      <h1 class="logo"> <img src="{% static 'images/Deliveready.png' %}" width="170" height="70"> </h1>
+
+      <nav>
+        <ul>
+          <li><a href="../../../../home/">Home</a></li>
+          <li><a href="../../../../home/">Recipes</a></li>
+          <li><a href="../../../pantry/">Pantry</a></li>
+          <li><a href="../../../order/view/all">Orders</a></li>
+          <li><a href="../../../shoppingcart/">Cart</a></li>
+        </ul>
+      </nav>
+    </div>
+</header>
+
     <body onload="getRecipeInfo()">
-        <div class="nav">
-           <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
-        </div>
     <div style="text-align: center; padding-top: 20px;"><a href="{% url 'recipes:main' %}" type="button" class="btn btn-secondary btn-lg">Back</a></div>
     <div style="text-align: center; padding-top: 10px; color: #5b80b2"><button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#myModal" onclick="addToCart()">Add to Cart</button></div>
     <div class='container-fluid'>
@@ -55,6 +68,7 @@
             <div id="modal-add" class="modal-body"></div>
 
             <!-- Modal footer -->
+            <div id="modal-confirm" style="text-align: center; padding-top: 20px;"></div>
             <div style="text-align: center; padding-top: 20px;"><button class="btn btn-secondary" data-dismiss="modal">Close</button></div>
             <div style="text-align: center; padding-top: 20px;padding-bottom: 50px"><a href="{% url 'recipes:main' %}" type="button" class="btn btn-secondary btn-lg">Browse Recipes</a></div>
           </div>

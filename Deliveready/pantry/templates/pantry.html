@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang ="en">
 <head>
@@ -10,24 +12,25 @@
 </head>
 
 
-<div class="nav">
-  <img src="../assets/Deliveready-modified.png" class="centertop">
-   <u1>   
-       <li><a href="default.asp">Home</a></li>
-       <li><a href="news.asp">Recipes</a></li>
-       <li><a href="contact.asp">Pantry</a></li>
-       <li style="float: right"><a href="about.asp">Cart</a></li>
-       <li style="float: right"><a href="about.asp">Orders</a></li>
-   </u1>
-   
-</div>
+<header>
+    <div class="container">
+      <h1 class="logo"> <img src="{% static 'images/Deliveready.png' %}" width="170" height="70"> </h1>
+
+      <nav>
+        <ul>
+          <li><a href="../../../../home/">Home</a></li>
+          <li><a href="../../../../home/">Recipes</a></li>
+          <li><a href="../../../pantry/">Pantry</a></li>
+          <li><a href="../../../order/view/all">Orders</a></li>
+          <li><a href="../../../shoppingcart/">Cart</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
 <body onload = getPantryInfo()>
-
-  <header>
-    <h1 class = "cartTitle"> My Pantry </h1>
-    <br>
-  </header>
+<h1 class = "cartTitle"> My Pantry </h1>
+<br>
 
 
   <div class = "container-fluid"> 
@@ -37,7 +40,7 @@
       <div class = "col-8">
         <div id = "pantryImageArea" class = "row">
 
-          <!-- Where cards go -->
+          <!-- Where cards go dynmically made from js now-->
         
           <!-- <div class="card mx-2 mb-2" style="width: 12rem;">
             <img class = "card-img card-img-top" src="..\assets\sugar.PNG" alt="...">
@@ -56,7 +59,6 @@
             </h4>
               <div class="input-group">
                 <input id = "searchInput" type="text" class="form-control" placeholder="Search Ingredients">
-                <!-- <input id = "quantityInput" type = "number" class = "form-control col-3" placeholder = "Quantity"> -->
                 <button id = "addBtn" type="add" class="btn btn-success ">Add</button>
               </div>
             <ul id = "pantryList" class="list-group mb-3">
