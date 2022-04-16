@@ -118,7 +118,7 @@ function addItemSummary(item, amount, price) {
     if (document.getElementById("cartSummary" + item) != null) {
         var semitotal = Number(price) * Number(amount)
         document.getElementById("cartSummary" + item + "Title").innerHTML = item + " x" + amount
-        document.getElementById("cartSummary" + item + "Total").innerHTML = price + "*" + amount + "=" + semitotal;
+        document.getElementById("cartSummary" + item + "Total").innerHTML = price + "*" + amount + "=" + semitotal.toFixed(2);
         //document.getElementById("cartSummary" + item + "CardTitle").innerHTML = "Apple x2";
         document.getElementById("cartSummary" + item + "CardTitle").innerHTML = item + " x" + amount;
         return;
@@ -139,7 +139,7 @@ function addItemSummary(item, amount, price) {
     cartSumQuantity.classList.add("text-muted");
     cartSumQuantity.setAttribute('id', "cartSummary" + item + "Total");
     var semitotal = Number(price) * Number(amount)
-    cartSumQuantity.innerHTML = price + "*" + amount + "=" + semitotal;  // chnage back
+    cartSumQuantity.innerHTML = price + "*" + amount + "=" + semitotal.toFixed(2);  // chnage back
 
     const newBtn = document.createElement("button");
     newBtn.classList.add("btn", "btn-danger", "btn-sm");
