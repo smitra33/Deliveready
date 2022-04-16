@@ -3,7 +3,8 @@ body, html {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    font-family: 'Segoe UI'
+    font-family: 'Segoe UI';
+    background-color: ghostwhite;
 }
 
 .cartTitle {

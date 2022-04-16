@@ -86,7 +86,7 @@ body {
 .btn {
     border-radius: 0;
     width: fit-content;
-    background-color: #69F0AE;
+    background-color: #7f9ca8;
     box-shadow: 0px 10px 10px #E0E0E0;
     z-index: 1;
     color: white;
@@ -182,4 +182,11 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
   -webkit-appearance: none;
+}
+
+body {
+    font-family: 'Segoe UI';
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: ghostwhite;
 }
