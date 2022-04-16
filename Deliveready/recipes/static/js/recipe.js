@@ -35,6 +35,7 @@ async function addToCart() {
     checkPantry();
     checkCart();
     compareNonDuplicates();
+    handleDuplicates();
 }
 
 async function checkPantry() {
@@ -72,12 +73,11 @@ async function checkCart() {
         document.getElementById('modal-cart').innerHTML =
             `
             <div>You already have the following items in your Cart! Please use the check items to include them.</div>
-              <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                  <label class="form-check-label" for="flexCheckDefault">
-                    Default checkbox
-                  </label>
-                </div>
+            <select class="selectpicker" multiple data-live-search="true">
+              <option>Mustard</option>
+              <option>Ketchup</option>
+              <option>Relish</option>
+            </select>
             `
     }
     console.log(cartDuplicates);
@@ -95,6 +95,20 @@ function compareNonDuplicates(){
     if (add_list){
         addIngredientsToCart(add_list);
     }
+}
+
+function handleDuplicates(){
+    // var add_list = {}
+    // pantryNonDuplicates.forEach(pndup => {
+    //     cartNonDuplicates.forEach(cndup => {
+    //         if (pndup.name == cndup.name){
+    //             add_list[cndup.name] = 1;
+    //         }
+    //     });
+    // });
+    // if (add_list){
+    //     addIngredientsToCart(add_list);
+    // }
 }
 
 async function addIngredientsToCart(ingredients) {

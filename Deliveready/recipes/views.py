@@ -6,7 +6,7 @@ from django.views.generic import ListView
 from .forms import PostRecipe
 
 def main(request):
-    return redirect('recipes:home')
+    return redirect('/accounts/login')
 
 def recipe(request, recipe_id):
     recipe = Recipe.objects.filter(id=recipe_id).first()
