@@ -1,0 +1,198 @@
+/*
+.nav {
+    background-color: lightgrey;
+    height: 70px;
+    border: 0.5px solid black;
+}
+
+.nav u1 {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+li {
+    float: left;
+    margin-top: 10px;
+}
+
+li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.center {
+    display: inline-block;
+    width: 150;
+    margin-left: 600px;
+    margin-right: auto;
+}
+*/
+.container {
+	width: 80%;
+	margin: 0 auto;
+}
+
+header {
+  background: lightgray;
+  height: 70px;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.logo {
+  float: left;
+  margin-top: 0px;
+  margin-left: -100px;
+  
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  display: inline-block;
+  margin-left: 70px;
+  padding-top: 23px;
+
+  position: relative;
+}
+
+nav a {
+  color: #444;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+nav a:hover {
+  color: #000;
+}
+
+nav a::before {
+  content: '';
+  display: block;
+  height: 5px;
+  background-color: #444;
+
+  position: absolute;
+  top: 0;
+  width: 0%;
+
+  transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+  width: 100%;
+}
+
+.payment {
+    width: 1000px;
+    margin: auto;
+    text-align: center;
+    margin-top: 60px;
+    background-color: white;
+}
+
+.payment-details {
+    margin-top: 80px;
+}
+
+.input-box {
+    height: 60px;
+    margin-bottom: 30px;
+    background-color: whitesmoke;
+    border: solid lightgrey;
+    font-size: 30px;
+    padding-left: 30px;
+
+}
+
+::placeholder {
+    color: black;
+    padding: 30px;
+    font-size: 30px;
+    opacity: 0.5;
+}
+
+#country {
+    width: 700px;
+    height: 60px;
+    color: grey;
+    font-size: 30px;
+    padding-left: 30px;
+    margin-bottom: 30px;
+}
+
+.city {
+    margin-bottom: 100px;
+}
+
+.next-to {
+    display: inline-block;
+    width: 24%;
+}
+
+.button-placement {
+    margin: auto;
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 100px;
+
+}
+
+.button {
+    border: solid grey;
+    width: 300px;
+    height: 50px;
+    font-size: 25px;
+    background-color: grey;
+    color: black;
+    font-family: 'Segoe UI';
+}
+
+body {
+    font-family: 'Segoe UI';
+    background-image: url("../images/foodback.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+a:link {
+    color: black;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+a:visited {
+    color: black;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+a:hover {
+    color: white;
+    background-color: transparent;
+}
+
+a:active {
+    color: black;
+    background-color: transparent;
+    text-decoration: underline;
+}

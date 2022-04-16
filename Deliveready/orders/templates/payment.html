@@ -1,0 +1,79 @@
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/payment.css' %}">
+    <script src="{% static 'js/payment.js' %}"></script>
+{% endblock %}
+{% block title %}
+    <title>Payment</title>
+{% endblock %}
+
+{% block content %}
+<!----
+
+    <div class="nav">
+        <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
+         <u1>   
+             <li><a href="default.asp">Home</a></li>
+             <li><a href="news.asp">Recipes</a></li>
+             <li><a href="contact.asp">Pantry</a></li>
+             <li style="float: right"><a href="about.asp">Cart</a></li>
+             <li style="float: right"><a href="about.asp">Orders</a></li>
+         </u1>
+         
+     </div> -->
+
+     <header>
+        <div class="container">
+          <h1 class="logo"> <img src="{% static 'images/Deliveready-modified.png' %}" width="170" height="70"> </h1>
+    
+          <nav>
+            <ul>
+              <li><a href="../../../../home/">Home</a></li>
+              <li><a href="../../../../home/">Recipes</a></li>
+              <li><a href="../../../pantry/">Pantry</a></li>
+              <li><a href="../../../order/view/all">Orders</a></li>
+              <li><a href="../../../shoppingcart/">Cart</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header> 
+
+     <body>
+
+        <div class="payment">
+            <div class="title-text">
+                <h1 style="color: white;"> '</h1>
+                <h1 style="color: #478E5F; text-align: center;"> Enter Your Payment Details </h1>
+                <hr size = "10" color = "black" style="width: 60%">
+            </div>
+            
+            <div class="payment-details">
+                <form>                
+                    <input type="text" class="input-box" name="card-number" placeholder="Card Number" size="40"><br>
+                <form>
+                    <input type="text" class="input-box" name="address" placeholder="Street Address" size="40" maxlength="42"><br>
+                </form>
+                <form>
+                    <input type="text" class="input-box" name="unit" placeholder="Apt, unit, suite, etc (optional)" size="40" maxlength="42"><br>
+                </form>
+                <select name="country" id="country">
+                    <option value = "" disabled selected>Country</option>
+                    <option value = "canada">Canada</option>
+                    <option value = "us">United States</option>
+                </select>
+                <div class="city">
+                    <div class="next-to"> <input type="text" class="input-box" name="city" placeholder="City" size="8" maxlength="10"><br></div>
+                    <div class="next-to"><input type="text" class="input-box" name="province" placeholder="Province" size="8" maxlength="10"><br> </div>
+                    <div class="next-to"><input type="text" class="input-box" name="postal" placeholder="PC" size="8" maxlength="10"><br> </div>
+                </div>
+                <p style="color:white"> '</p>
+            </div> 
+
+        </div>
+        <div class="button-placement">
+            <button type="button" class="button" style="color:black"><a href="..">Place Order</a></button>
+        </div>
+    </body>
+    
+
+{% endblock content %}
