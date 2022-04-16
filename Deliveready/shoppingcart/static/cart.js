@@ -14,7 +14,7 @@ function assignCartInfo() {
         ingredientsList.push(ing['name']);
     });
     cartInfo['quantity'].forEach(ing => {
-        quantityList.push(ing['name']);
+        quantityList.push(ing['quantity']);
     });
     displayElements();
 }
@@ -26,7 +26,6 @@ function displayElements() {
         addToPantry(item, amount);
     }
 }
-
 
 const addBtn = document.getElementById('cartAddBtn');
 const searchInput = document.querySelector('#cartSearchInput');
@@ -130,8 +129,29 @@ function addItemSummary(item, amount) {
 function addItemFromButton() {
     var item = searchInput.value;
     var amount = quantityInput.value;
+    if (ingredient === null) return;
+    if (ingredient.length === 0) return;
     addItemSummary(item, amount);
-    // function to add to database
+    addIngredientToDatabase(item,amount);
 }
 
 addBtn.addEventListener('click', addItemFromButton); 
+
+async function addIngredientToDatabase(targetIng, amount) {
+    targetIng = targetIng.charAt(0).toUpperCase() + targetIng.slice(1);
+    const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/`, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({'text':targetIng, 'quantity':amount})
+    });
+    const json = await response.json()
+    console.log(json['success']);
+}
+
+
+function getCookie(name){
+    return document.cookie.match(';?\\s*csrftoken\\s*=\\s*([^;]*)')?.pop();
+}

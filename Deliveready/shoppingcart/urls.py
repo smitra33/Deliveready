@@ -5,3 +5,4 @@ urlpatterns = [
     path('', views.cart, name='shoppingcart'),
     path('api/view/',api.ShoppingCartView.as_view(), name = "shoppingcart_view"),
 ]
+
