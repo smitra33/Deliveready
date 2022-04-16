@@ -34,7 +34,7 @@
     </div>
 </header>
 <body>
-<h4 style="padding-top: 50px; text-align: center">Welcome back, {{ user }}!</h4>
+<h4 style="padding-top: 50px; text-align: center; color: #333D79FF;">Welcome Back, {{ user }}!</h4>
 {% if user.is_authenticated %}
   {% for obj in object_list %}
     <div class="container mx-auto mt-4">
@@ -43,7 +43,7 @@
           <div class="card" style="width: 18rem;">
             <img src="{% static obj.filename_url %}" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">{{obj.title}}</h5>
+              <h5 class="card-title" >{{obj.title}}</h5>
               <h6 class="card-subtitle">Rating: {{obj.rating}}</h6>
                  <a href="{% url 'recipes:recipe' obj.id %}" class="btn mr-2" style="float: center"><i class="fas fa-link"></i> View Recipe</a>
             </div>

@@ -108,7 +108,7 @@ function addToPantryFromButton() {
     addToPantry(ingredient);
 }
 
-addBtn.addEventListener('click', addToPantryFromButton); 
+addBtn.addEventListener('click', addToPantryFromButton);
 
 async function addToPantryDatabase(targetIng) {
     targetIng = targetIng.charAt(0).toUpperCase() + targetIng.slice(1);
