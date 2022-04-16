@@ -8,56 +8,36 @@ from ingredients.models import Ingredient
 from users.models import User
 from shoppingcart.models import ShoppingCart
 
+
 class PantryView(APIView):
     @action(detail=True, methods=['get'], url_path='list', url_name='list')
-    def get(self, request):
-        user = User.objects.filter(username=request.user).first() 
-        ingredients = Pantry.objects.filter(user_id=user.id).values('ingredients')
+    def get(self, request, pantry_id):
+        user = User.objects.filter(username=request.user).first()
+        pantry = Pantry.objects.filter(user__id=user.id).first()
+        ingredients = pantry.values('ingredients')
         ingredient_list = []
         for key in ingredients:
-            ingredient_list.append(Ingredient.objects.filter(id=key['ingredients']).values('name', 'quantity').first())
+            ingredient_list.append(
+                Ingredient.objects.filter(id=key['ingredients']).values('name', 'quantity', 'quantity_unit', 'price',
+                                                                        'filename_url').first())
         data = {'ingredients': ingredient_list}
         return JsonResponse(data, safe=False)
 
 
-
+class AddPantryIngredientsToCart(APIView):
+    @action(detail=True, methods=['post'])
     def post(self, request, *args, **kwargs):
         try:
-            ing_dict = request.data
+            pantry_id = request.data['pantry_id']
+            pantry = Pantry.objects.filter(id=pantry_id)
+            ingredient_list = pantry.values('ingredients')
             user = User.objects.filter(username=request.user).first()
-            pantry = Pantry.objects.filter(user__id=user.id).first()
-            for key in ing_dict.items():
-                ing_name = ing_dict['text']  
-                if Ingredient.objects.get_or_create(name=ing_name) == False:
-                    desired_ingredient = Ingredient.objects.filter(name=ing_name).first()
-                else: 
-                    desired_ingredient = Ingredient.objects.filter(name=ing_name).first()
-                pantry.ingredients.add(desired_ingredient).save()
+            cart = ShoppingCart.objects.filter(user__id=user.id).first()
+            for key in ingredient_list:
+                single_item = Ingredient.objects.get(id=key['ingredients'])
+                cart.ingredients.add(single_item)
+            cart.save()
             return JsonResponse({'success': True, 'message': ''})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
 
-
-
-    def delete(self, request, *args, **kwargs):
-        try:
-            ing_dict = request.data
-            user = User.objects.filter(username=request.user).first()
-            pantry = Pantry.objects.filter(user__id=user.id).first()
-            for key in ing_dict.items():
-                ing_name = ing_dict['text']
-                ing_id = Ingredient.objects.filter(name=ing_name).first().id
-                print(ing_id)
-                # desired = pantry.ingredients.objects.filter(ingredient_id=ing_id).first()
-                desired = Ingredient.objects.filter(ingredient_id = ing_id).first()
-                # desired = pantry.objects.filter(ingredient_id = ing_id).first()
-                # desired.remove()
-                pantry.ingredients.remove(desired)
-                # pantry.ingredients.delete(desired)     
-            return JsonResponse({'success': True, 'message': ''})
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})     
-
-        
-
-        
