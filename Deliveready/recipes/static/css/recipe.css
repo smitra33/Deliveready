@@ -68,7 +68,7 @@ nav a:hover::before {
 }
 
 body {
-    background-color: white;
+    background-color: ghostwhite;
 }
 
 .sale {
@@ -86,7 +86,7 @@ body {
 .btn {
     border-radius: 0;
     width: fit-content;
-    background-color: #7f9ca8;
+    background-color: #6c7f86;
     box-shadow: 0px 10px 10px #E0E0E0;
     z-index: 1;
     color: white;
@@ -100,9 +100,10 @@ body {
 }
 
 .card {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, .2);
-    border-radius: 5px;
-    padding-bottom: 10px
+  background: lightgrey;
+  border: 1px solid #333D79FF;
+  color: black;
+  margin-bottom: 2rem;
 }
 
 .card-title {
