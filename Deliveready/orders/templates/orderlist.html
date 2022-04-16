@@ -1,0 +1,105 @@
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/orderlist.css' %}">
+{% endblock %}
+{% block title %}
+    <title>Order List</title>
+{% endblock %}
+
+{% block content %}
+ <!----   <div class="nav">
+       <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
+        <u1>   
+            <li><a href="default.asp">Home</a></li>
+            <li><a href="news.asp">Recipes</a></li> 
+            <li><a href="contact.asp">Pantry</a></li>
+            <li style="float: right"><a href="about.asp">Cart</a></li>
+            <li style="float: right"><a href="view/1">Orders</a></li>
+        </u1>
+        
+    </div> -->
+
+    <header>
+        <div class="container">
+          <h1 class="logo"> <img src="{% static 'images/Deliveready-modified.png' %}" width="170" height="70"> </h1>
+    
+          <nav>
+            <ul>
+              <li><a href="../../../../home/">Home</a></li>
+              <li><a href="../../../../home/">Recipes</a></li>
+              <li><a href="../../../pantry/">Pantry</a></li>
+              <li><a href="../../../order/view/all">Orders</a></li>
+              <li><a href="../../../shoppingcart/">Cart</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header> 
+
+
+    <body onload="getOrderInfo()">
+        <!-- This is how to comment!-->
+        <div class="white-background">
+            
+            <div class="title-test"> 
+                <h1 style="color:white"> '</h1>
+                <h1 style="color: #333D79FF;"> Order History </h1>
+                <hr size = "10" color = "black" style="width: 60%">
+            </div>
+
+            <div class="orders">
+                
+                <div class="orders-list">
+                    <table style="width:100%" id = "orders-table">
+                        <style>
+                            td {
+                                text-align: center;
+                                line-height: 200%;
+                            }
+                        </style>
+                        <tr>
+                            <th style="width:25%">Order #</th>
+                            <th style="width:25%">Order Date</th>
+                            <th style="width:25%">Arrival Date</th>
+                            <th style="width:25%"></th>
+                        </tr>
+                    </table>
+                    <table style="width:100%" id = "orders-table">
+                        <style>
+                            td {
+                                text-align: center;
+                                line-height: 200%;
+                            }
+                        </style>
+                        <tr>
+                            <td> <hr size = "2" color = "#4f72e3" width="1000px"></td>
+                        </tr>
+                    </table>
+
+                    <table style="width:100%" id = "orders-table">
+                        <style>
+                            td {
+                                text-align: center;
+                                line-height: 200%;
+                            }
+                        </style>
+                        {% if user.is_authenticated %}
+                        {% for obj in object_list %}
+                            <tr>
+                                <th style="width:25%" >{{obj.order_number}}</th>
+                                <th style="width:25%" > {{obj.date}}</th>
+                                <th style="width:25%" > {{obj.eta}} </th>
+                                <th style="width:25%" > <a href="{% url 'order' obj.id %}"> View Order </a> </th>
+                            </tr>
+
+                        {% endfor %}
+                      {% endif %}
+
+                    </table>
+
+                </div>
+            </div>
+            
+        </div>
+
+    </body>
+{% endblock content %}
