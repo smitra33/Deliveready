@@ -45,18 +45,42 @@ async function checkPantry() {
         pantryDuplicates = json['duplicates'];
         pantryNonDuplicates = json['non-dupes'];
     }
-    if (pantryDuplicates) {
+    if (!(pantryDuplicates === undefined || pantryDuplicates.length == 0)) {
         //open modal with duplicates with options to remove
-        document.getElementById('modal-pantry').innerHTML =
+        var pantryCheck = document.getElementById('modal-pantry');
+        var pantryContents =
             `
-            <div>You already have the following items in your pantry! Please use the check items to include them.</div>
-              <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                  <label class="form-check-label" for="flexCheckDefault">
-                    Default checkbox
-                  </label>
-                </div>
+            <div><h5>You already have the following items in your pantry! Please by incrementing quantity </h5></div>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Ingredient</th>
+                  <th scope="col">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+              `;
+
+        pantryDuplicates.forEach(dup => {
+        pantryContents +=
+            `<tr id="${dup.name}">
+                <td>${dup.name}</td>
+                <td id="${dup.name}-quantity">
+                    <div class="input-group">
+                      <input type="button" value="-" class="button-minus" data-field="quantity">
+                      <input type="number" step="1" max="" value="1" name="quantity" class="quantity-field">
+                      <input type="button" value="+" class="button-plus" data-field="quantity">
+                    </div>
+                </td>
+             </tr>
+            `;
+        });
+        pantryContents +=
             `
+            </tbody>
+            </table>
+            `;
+        pantryCheck.innerHTML = pantryContents;
     }
     console.log(pantryDuplicates);
 }
@@ -68,17 +92,42 @@ async function checkCart() {
         cartDuplicates = json['duplicates'];
         cartNonDuplicates = json['non-dupes'];
     }
-    if (cartDuplicates) {
+    if (!(cartDuplicates === undefined || cartDuplicates.length == 0)) {
         //open modal with duplicates with options to remove
-        document.getElementById('modal-cart').innerHTML =
+        var cartCheck = document.getElementById('modal-cart');
+        var cartContents =
             `
-            <div>You already have the following items in your Cart! Please use the check items to include them.</div>
-            <select class="selectpicker" multiple data-live-search="true">
-              <option>Mustard</option>
-              <option>Ketchup</option>
-              <option>Relish</option>
-            </select>
+            <div><h5>You already have the following items in your cart! Please confirm by incrementing quantity </h5></div>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Ingredient</th>
+                  <th scope="col">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+              `;
+
+        cartDuplicates.forEach(dup => {
+        cartContents +=
+            `<tr id="${dup.name}">
+                <td>${dup.name}</td>
+                <td id="${dup.name}-quantity">
+                    <div class="input-group">
+                      <input type="button" value="-" class="button-minus" data-field="quantity">
+                      <input type="number" step="1" max="" value="1" name="quantity" class="quantity-field">
+                      <input type="button" value="+" class="button-plus" data-field="quantity">
+                    </div>
+                </td>
+             </tr>
+            `;
+        });
+        cartContents +=
             `
+            </tbody>
+            </table>
+            `;
+        cartCheck.innerHTML = cartContents;
     }
     console.log(cartDuplicates);
 }
@@ -92,7 +141,7 @@ function compareNonDuplicates(){
             }
         });
     });
-    if (add_list){
+    if (!Object.keys(add_list).length===0) {
         addIngredientsToCart(add_list);
     }
 }
@@ -109,6 +158,10 @@ function handleDuplicates(){
     // if (add_list){
     //     addIngredientsToCart(add_list);
     // }
+    if ((!pantryDuplicates.length === 0) || (!cartDuplicates.length === 0)){
+        document.getElementById('modal-confirm'). innerHTML =
+            `<button class="btn btn-secondary">Confirm</button>`;
+    }
 }
 
 async function addIngredientsToCart(ingredients) {
@@ -176,3 +229,38 @@ function openModal (){
 function getCookie(name){
     return document.cookie.match(';?\\s*csrftoken\\s*=\\s*([^;]*)')?.pop();
 }
+
+
+function incrementValue(e) {
+  e.preventDefault();
+  var fieldName = $(e.target).data('field');
+  var parent = $(e.target).closest('div');
+  var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+  if (!isNaN(currentVal)) {
+    parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
+  } else {
+    parent.find('input[name=' + fieldName + ']').val(0);
+  }
+}
+
+function decrementValue(e) {
+  e.preventDefault();
+  var fieldName = $(e.target).data('field');
+  var parent = $(e.target).closest('div');
+  var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+  if (!isNaN(currentVal) && currentVal > 0) {
+    parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
+  } else {
+    parent.find('input[name=' + fieldName + ']').val(0);
+  }
+}
+
+$('.input-group').on('click', '.button-plus', function(e) {
+  incrementValue(e);
+});
+
+$('.input-group').on('click', '.button-minus', function(e) {
+  decrementValue(e);
+});
