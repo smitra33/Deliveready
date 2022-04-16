@@ -14,7 +14,7 @@ class OrderView(APIView):
     def get(self, request, order_id):
 
         # Gets order number, date, eta, and total
-        order = Order.objects.filter(id=order_id)
+        order = Order.objects.filter(id=order_id) 
         number = order.values('order_number').first()
         date = order.values('date').first()
         eta = order.values('eta').first()

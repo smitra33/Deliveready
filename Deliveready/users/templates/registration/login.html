@@ -1,0 +1,44 @@
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+{% endblock %}
+{% block title %}
+    <title>Login</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 class="text-center text-dark mt-5">Welcome to Deliveready!</h2>
+        <div class="card my-5">
+
+          <div class="card-body cardbody-color p-lg-5">
+            <div class="text-center">
+              <img src="{% static 'images/Deliveready.png' %}" class="center">
+            </div>
+
+             <div id="content-container" class="container p-none">
+                    <div  class="float: center-block" class="lgn-container col-lg-8">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                          <div class="text-center"><button type="submit" class="btn btn-color px-5 mb-5 w-100">Login</button></div>
+                          <input type="hidden" name="next" value="{% url 'recipes:home' %}" />
+                        </form>
+                    </div>
+                 <div id="emailHelp" class="form-text text-center mb-5 text-dark">Not
+                     Registered? <a href="/user/register/" class="text-dark fw-bold"> Create an
+                         Account</a>
+            </div>
+                </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+    {% endblock content %}

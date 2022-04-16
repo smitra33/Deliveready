@@ -14,15 +14,20 @@
 
       <nav>
         <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Recipes</a></li>
-          <li><a href="#">Pantry</a></li>
-          <li><a href="#">Orders</a></li>
-          <li><a href="#">Cart</a></li>
+          <li><a href="../../../../home/">Home</a></li>
+            {% if user.is_superuser %}
+          <li><a href="../../../../make_recipe/">Recipe Portal</a></li>
+            {% endif %}
+          <li><a href="../../../pantry/">Pantry</a></li>
+          <li><a href="../../../order/view/all">Orders</a></li>
+          <li><a href="../../../shoppingcart/">Cart</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% endif %}
         </ul>
       </nav>
     </div>
-  </header> 
+</header>
  
     <body>
 

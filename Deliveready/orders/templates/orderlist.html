@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="nav">
+ <!----   <div class="nav">
        <img src="{% static 'images/Deliveready-modified.png' %}" class="center">
         <u1>   
             <li><a href="default.asp">Home</a></li>
@@ -17,7 +17,28 @@
             <li style="float: right"><a href="view/1">Orders</a></li>
         </u1>
         
+    </div> -->
+
+<header>
+    <div class="container">
+      <h1 class="logo"> <img src="{% static 'images/Deliveready-modified.png' %}" width="170" height="70"> </h1>
+
+      <nav>
+        <ul>
+          <li><a href="../../../../home/">Home</a></li>
+            {% if user.is_superuser %}
+          <li><a href="../../../../make_recipe/">Recipe Portal</a></li>
+            {% endif %}
+          <li><a href="../../../pantry/">Pantry</a></li>
+          <li><a href="../../../order/view/all">Orders</a></li>
+          <li><a href="../../../shoppingcart/">Cart</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% endif %}
+        </ul>
+      </nav>
     </div>
+</header>
 
 
     <body onload="getOrderInfo()">

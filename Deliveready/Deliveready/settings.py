@@ -137,6 +137,9 @@ STATIC_URL = '/static/'
 STATIC_PATH = 'static'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = "/home/"
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
