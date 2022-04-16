@@ -120,9 +120,9 @@ nav a:hover::before {
 
 body {
     font-family: 'Segoe UI';
-    background-color: #FAEBEFFF;
     background-size: cover;
     background-repeat: no-repeat;
+    background-color: ghostwhite;
 }
 
 .white-background {
