@@ -25,6 +25,7 @@ class ShoppingCartView(APIView):
 
         for cart_ingredient in cart_ingredients:
             cart_ingredient_list.append(Ingredient.objects.filter(id=cart_ingredient.ingredients_id).values('name').first())
+            print(cart_ingredient.quantity)
             quantity_list.append(cart_ingredient.quantity)
             quantity_unit_list.append(Ingredient.objects.filter(id=cart_ingredient.ingredients_id).values('quantity_unit').first())
             price_list.append(Ingredient.objects.filter(id=cart_ingredient.ingredients_id).values('price').first())
@@ -46,14 +47,10 @@ class ShoppingCartView(APIView):
             shopcart = ShoppingCart.objects.filter(user_id = user.id).first()
             for key in ing_dict.items():
                 ing_name = ing_dict['text']
-                print(ing_name)
                 ing_quan = ing_dict['amount']
-                print(ing_quan)
-                if Ingredient.objects.get_or_create(name=ing_name) == False:
-                    ing_id = Ingredient.objects.filter(name=ing_name).first()
-                else: 
-                    ing_id = Ingredient.objects.filter(name=ing_name).first()
-                CartIngredient.objects.create(quantity = ing_quan, ingredients_id = ing_id.id, shopping_cart_id = shopcart.id)
+                Ingredient.objects.get_or_create(name=ing_name)
+                ing_id = Ingredient.objects.filter(name=ing_name).first()
+                CartIngredient.objects.get_or_create(quantity = ing_quan, ingredients_id = ing_id.id, shopping_cart_id = shopcart.id)
             return JsonResponse({'success': True, 'message': ''})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
