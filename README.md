@@ -9,10 +9,11 @@ Here's how to get started!
 - run the following commands: 
     -   pip install django
     -   pip install djangorestframework
-    -   pip install -r requirements.txt
+    -   
 - Navigate to the project root folder and run:
+    - pip install -r requirements.txt
     - python manage.py makemigrations
-    - pythong manage.py migrate
+    - python manage.py migrate
 
 - now, you can run the server:
   - python manage.py runserver
