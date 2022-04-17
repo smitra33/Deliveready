@@ -11,9 +11,9 @@ from .models import CartIngredient
 class ShoppingCartView(APIView):
     @action(detail=True, methods=['get'], url_path='list', url_name='list')
     def get(self, request):
-        user = User.objects.filter(username=request.user).first() 
-        cart = ShoppingCart.objects.filter(id=user.id)
-        cart_ingredients = CartIngredient.objects.filter(shopping_cart_id=user.id)
+        user = User.objects.filter(username=request.user).first()
+        cart = ShoppingCart.objects.filter(user__id=user.id).first()
+        cart_ingredients = CartIngredient.objects.filter(shopping_cart_id=cart.id)
 
         cart_ingredient_list = [] 
         quantity_list = []
