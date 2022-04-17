@@ -157,10 +157,10 @@ class AddSelectedIngredientsToCart(APIView):
             cart = ShoppingCart.objects.filter(user__id=user.id).first()
             for key, value in ing_dict.items():
                 single_ing = Ingredient.objects.get(name=key)
-                quantity = int(value)
+                quantity_cart = int(value)
                 product = CartIngredient.objects.filter(ingredients_id=single_ing.id).filter(shopping_cart_id=cart.id).first()
                 if product:
-                    product.quantity = quantity
+                    product.quantity = product.quantity + quantity_cart
                     product.save()
             return JsonResponse({'success': True, 'message': ''})
         except Exception as e:

@@ -43,6 +43,49 @@ function refreshModal() {
     document.getElementById('modal-confirm-button').style.display = "none";
 }
 
+function getDuplicateInfo() {
+    var sendList = {}
+    if (pantryDuplicates.length > 0) {
+    pantryDuplicates.forEach(dup => {
+        var element = dup.name + '-quantity-pantry';
+        var val = document.getElementById(element).value;
+        if (parseInt(val) > 0) {
+            if (dup.name in sendList){
+                sendList[dup.name] = parseInt(val) + 1;
+            }
+            else {
+              sendList[dup.name] = parseInt(val);
+            }
+        }
+    });
+    }
+    if (pantryNonDuplicates.length > 0) {
+    pantryNonDuplicates.forEach(dup => {
+        if (dup.name in sendList){
+            sendList[dup.name] = parseInt(sendList[dup.name]) + 1;
+        }
+    });
+    }
+    if (cartDuplicates.length > 0) {
+        cartDuplicates.forEach(dup => {
+            var element = dup.name + '-quantity-cart';
+            console.log(element);
+            var val = document.getElementById(element).value;
+            if (parseInt(val) > 0) {
+                if (dup.name in sendList) {
+                    sendList[dup.name] = parseInt(val) + parseInt(sendList[dup.name]);
+                } else {
+                    sendList[dup.name] = parseInt(val);
+                }
+            }
+        });
+        if (Object.keys(sendList).length === 0) {
+            document.getElementById('modal-add').innerHTML = `<div style="text-align: center;"><h6>Nothing Added</h6><div id=totals></div></div>`
+        } else {
+            addIngredientsToCart(sendList);
+        }
+    }
+}
 
 async function checkFullPantry() {
     const response = await fetch(`http://127.0.0.1:8000/api/check_pantry_ingredients/${recipe_id}/`);
@@ -72,10 +115,10 @@ async function checkFullPantry() {
             `<tr id="${dup.name}">
                 <td>${dup.name}</td>
                 <td id="${dup.name}-quantity">
-                    <div class="input-group">
-                      <input type="button" value="-" class="button-minus" data-field="quantity">
-                      <input type="number" step="1" max="" value="0" name="quantity" class="quantity-field">
-                      <input type="button" value="+" class="button-plus" data-field="quantity">
+                    <div class="quantity buttons_added">
+                        <input type="button" value="-" class="minus">
+                        <input id ="${dup.name}-quantity-pantry" type="number" step="1" min="0" max="" name="quantity" value="0" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
+                        <input type="button" value="+" class="plus">
                     </div>
                 </td>
              </tr>
@@ -120,12 +163,12 @@ async function checkCart() {
         cartContents +=
             `<tr id="${dup.name}">
                 <td>${dup.name}</td>
-                <td id="${dup.name}-quantity">
-                    <div class="input-group">
-                      <input type="button" value="-" class="button-minus" data-field="quantity">
-                      <input type="number" step="1" max="" value="0" name="quantity" class="quantity-field">
-                      <input type="button" value="+" class="button-plus" data-field="quantity">
-                    </div>
+                <td>
+                <div class="quantity buttons_added">
+                    <input type="button" value="-" class="minus">
+                    <input id ="${dup.name}-quantity-cart" type="number" step="1" min="0" max="" name="quantity" value="0" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
+                    <input type="button" value="+" class="plus">
+                </div>
                 </td>
              </tr>
             `;
@@ -148,45 +191,37 @@ async function checkCart() {
     }
     else {
         var header = 'Please Confirm';
-        var text = 'We need confirmation of the following:'
-    }
-}
-
-function handleDuplicates(){
-    if ((!pantryDuplicates.length === 0) || (!cartDuplicates.length === 0)){
-
-    }
-
-    var add_list = {}
-    pantryNonDuplicates.forEach(pndup => {
-        cartNonDuplicates.forEach(cndup => {
-            if (pndup.name == cndup.name){
-                add_list[cndup.name] = 1;
-            }
-        });
-    });
-    if (!Object.keys(add_list).length===0) {
-        addIngredientsToCart(add_list);
+        var text = 'We need confirmation of the following:';
+        displayModalContents(header, text);
     }
 }
 
 async function addIngredientsToCart(ingredients) {
-    var sendList = {}
-    ingredients.forEach(ing => {
-        sendList[ing['name']] = 1;
-    });
-    const response = await fetch(`http://127.0.0.1:8000/api/add_select_ingredients/`, {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify(sendList)
-    });
-    const json = await response.json()
-    if(json['success']){
-        document.getElementById('modal-add').innerHTML = `<div> We have added ${sendList} to your cart </div>`
+    if (!(Object.keys(ingredients).length === 0)) {
+        var totals = ``;
+        for (const [key, value] of Object.entries(ingredients)) {
+            console.log(key, value);
+            totals += `<br>${key}</br>`;
+        }
+
     }
+    else {
+        totals = ingredients.name;
+    }
+    const response = await fetch(`http://127.0.0.1:8000/api/add_select_ingredients/`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(ingredients)
+        });
+        const json = await response.json()
+        if (json['success']) {
+            refreshModal();
+            document.getElementById('modal-add').innerHTML = `<div style="text-align: center;"><h6>Added to Cart:</h6><div id=totals></div></div>`
+            document.getElementById('totals').innerHTML = totals;
+        }
 }
 
 async function checkUserStock() {
@@ -238,37 +273,25 @@ function getCookie(name){
     return document.cookie.match(';?\\s*csrftoken\\s*=\\s*([^;]*)')?.pop();
 }
 
-
-function incrementValue(e) {
-  e.preventDefault();
-  var fieldName = $(e.target).data('field');
-  var parent = $(e.target).closest('div');
-  var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
-
-  if (!isNaN(currentVal)) {
-    parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
-  } else {
-    parent.find('input[name=' + fieldName + ']').val(0);
-  }
+function wcqib_refresh_quantity_increments() {
+    jQuery("div.quantity:not(.buttons_added), td.quantity:not(.buttons_added)").each(function(a, b) {
+        var c = jQuery(b);
+        c.addClass("buttons_added"), c.children().first().before('<input type="button" value="-" class="minus" />'), c.children().last().after('<input type="button" value="+" class="plus" />')
+    })
 }
-
-function decrementValue(e) {
-  e.preventDefault();
-  var fieldName = $(e.target).data('field');
-  var parent = $(e.target).closest('div');
-  var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
-
-  if (!isNaN(currentVal) && currentVal > 0) {
-    parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
-  } else {
-    parent.find('input[name=' + fieldName + ']').val(0);
-  }
-}
-
-$('.input-group').on('click', '.button-plus', function(e) {
-  incrementValue(e);
-});
-
-$('.input-group').on('click', '.button-minus', function(e) {
-  decrementValue(e);
+String.prototype.getDecimals || (String.prototype.getDecimals = function() {
+    var a = this,
+        b = ("" + a).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+    return b ? Math.max(0, (b[1] ? b[1].length : 0) - (b[2] ? +b[2] : 0)) : 0
+}), jQuery(document).ready(function() {
+    wcqib_refresh_quantity_increments()
+}), jQuery(document).on("updated_wc_div", function() {
+    wcqib_refresh_quantity_increments()
+}), jQuery(document).on("click", ".plus, .minus", function() {
+    var a = jQuery(this).closest(".quantity").find(".qty"),
+        b = parseFloat(a.val()),
+        c = parseFloat(a.attr("max")),
+        d = parseFloat(a.attr("min")),
+        e = a.attr("step");
+    b && "" !== b && "NaN" !== b || (b = 0), "" !== c && "NaN" !== c || (c = ""), "" !== d && "NaN" !== d || (d = 0), "any" !== e && "" !== e && void 0 !== e && "NaN" !== parseFloat(e) || (e = 1), jQuery(this).is(".plus") ? c && b >= c ? a.val(c) : a.val((b + parseFloat(e)).toFixed(e.getDecimals())) : d && b <= d ? a.val(d) : b > 0 && a.val((b - parseFloat(e)).toFixed(e.getDecimals())), a.trigger("change")
 });
