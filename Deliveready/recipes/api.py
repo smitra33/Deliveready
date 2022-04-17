@@ -105,7 +105,7 @@ class CheckIngredientsCart(APIView):
             user = User.objects.filter(username=request.user).first()
             cart = ShoppingCart.objects.filter(user__id=user.id).first()
             cart_list = CartIngredient.objects.filter(shopping_cart_id=cart.id).values('ingredients')
-            duplicates = [elem for elem in cart_list if elem in cart_list]
+            duplicates = [elem for elem in recipe_list if elem in cart_list]
             non_duplicates = [elem for elem in recipe_list if elem not in cart_list]
             dup_list = []
             non_dup_list = []

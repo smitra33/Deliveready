@@ -31,8 +31,18 @@ function displayRecipeInfo(){
 }
 
 async function addToCart() {
-    checkEmptyPantry();
+    checkUserStock();
 }
+
+function refreshModal() {
+    document.getElementById('modal-heading').innerHTML = '';
+    document.getElementById('modal-message').innerHTML = '';
+    document.getElementById('modal-pantry').innerHTML = '';
+    document.getElementById('modal-cart').innerHTML = '';
+    document.getElementById('modal-add').innerHTML = '';
+    document.getElementById('modal-confirm-button').style.display = "none";
+}
+
 
 async function checkFullPantry() {
     const response = await fetch(`http://127.0.0.1:8000/api/check_pantry_ingredients/${recipe_id}/`);
@@ -46,7 +56,7 @@ async function checkFullPantry() {
         var pantryCheck = document.getElementById('modal-pantry');
         var pantryContents =
             `
-            <div><h5>You already have the following items in your pantry! Please by incrementing quantity </h5></div>
+            <div><h5>You already have the following items in your pantry! Please confirm by incrementing quantity </h5></div>
             <table class="table table-bordered">
               <thead>
                 <tr>
@@ -64,7 +74,7 @@ async function checkFullPantry() {
                 <td id="${dup.name}-quantity">
                     <div class="input-group">
                       <input type="button" value="-" class="button-minus" data-field="quantity">
-                      <input type="number" step="1" max="" value="1" name="quantity" class="quantity-field">
+                      <input type="number" step="1" max="" value="0" name="quantity" class="quantity-field">
                       <input type="button" value="+" class="button-plus" data-field="quantity">
                     </div>
                 </td>
@@ -78,19 +88,17 @@ async function checkFullPantry() {
             `;
         pantryCheck.innerHTML = pantryContents;
     }
-    document.getElementById('modal-confirm-button').style.display = "block";
-    console.log(pantryDuplicates);
+    if (pantryDuplicates.length > 0) {
+        document.getElementById('modal-confirm-button').style.display = "block";
+    }
 }
 
 async function checkCart() {
     const response = await fetch(`http://127.0.0.1:8000/api/check_cart_ingredients/${recipe_id}/`);
     var json = await response.json();
-    if (json['success'] && (json['duplicates'].length > 0)) {
+        if (json['success']) {
         cartDuplicates = json['duplicates'];
         cartNonDuplicates = json['non-dupes'];
-    }
-    else {
-        addRecipeToCart();
     }
     if (!(cartDuplicates === undefined || cartDuplicates.length == 0)) {
         //open modal with duplicates with options to remove
@@ -115,7 +123,7 @@ async function checkCart() {
                 <td id="${dup.name}-quantity">
                     <div class="input-group">
                       <input type="button" value="-" class="button-minus" data-field="quantity">
-                      <input type="number" step="1" max="" value="1" name="quantity" class="quantity-field">
+                      <input type="number" step="1" max="" value="0" name="quantity" class="quantity-field">
                       <input type="button" value="+" class="button-plus" data-field="quantity">
                     </div>
                 </td>
@@ -129,8 +137,19 @@ async function checkCart() {
             `;
         cartCheck.innerHTML = cartContents;
     }
-    console.log(cartDuplicates);
-    document.getElementById('modal-confirm-button').style.display = "block";
+    if (cartDuplicates.length > 0) {
+        document.getElementById('modal-confirm-button').style.display = "block";
+    }
+
+    if ((pantryDuplicates.length ===0) && (cartDuplicates.length ===0)) {
+        addRecipeToCart();
+        refreshModal();
+        console.log(((pantryDuplicates.length ===0) && (cartDuplicates.length ===0)));
+    }
+    else {
+        var header = 'Please Confirm';
+        var text = 'We need confirmation of the following:'
+    }
 }
 
 function handleDuplicates(){
@@ -155,7 +174,6 @@ async function addIngredientsToCart(ingredients) {
     var sendList = {}
     ingredients.forEach(ing => {
         sendList[ing['name']] = 1;
-        console.log(sendList);
     });
     const response = await fetch(`http://127.0.0.1:8000/api/add_select_ingredients/`, {
         method: 'POST',
@@ -171,7 +189,7 @@ async function addIngredientsToCart(ingredients) {
     }
 }
 
-async function checkEmptyPantry() {
+async function checkUserStock() {
     const response = await fetch(`http://127.0.0.1:8000/api/check_empty_pantry/`);
     var json = await response.json();
     if (json['success'] && json['empty_pantry']) {
@@ -193,7 +211,6 @@ async function addRecipeToCart() {
         body: JSON.stringify({recipe_id: recipe_id})
     });
     const json = await response.json()
-    console.log(json['success']);
     if (json['success']){
         var header = 'Success!'
         var text = 'Ingredients from ' + recipeInfo.title + ' added to cart!';
