@@ -7,10 +7,6 @@ body, html {
     background-color: ghostwhite;
 }
 
-.pantryCard {
-    width: 12rem;
-}
-
 .cartTitle {
     font-size: 32px;
     font-weight: bold;
@@ -74,6 +70,7 @@ li {
 
 .card {
     padding: 15px;
+    width: 12rem;
 }
 
 .container {
