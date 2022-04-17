@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Order
+from shoppingcart.models import ShoppingCart
 
 def order(request,order_id):
     order = Order.objects.filter(id=order_id).first()
@@ -21,7 +22,8 @@ def order_list(request):
 
 def payment(request):
     user = request.user
-    order = Order.objects.filter(cart_id=user.id).first()
+    cart = ShoppingCart.objects.filter(user=user.id).first()
+    order = Order.objects.filter(cart_id=cart.id).first()
     if request.user.is_authenticated:
         context = {
             "order": order,

@@ -78,7 +78,7 @@ function displayElements(){
         cell3 = row.insertCell(2); // quantity
         cell4 = row.insertCell(3); // price
 
-   //   document.getElementById('image_place').innerHTML = '<img src = "/static/images/eggs.jpg/">'
+   //   document.getElementById('image_place').innerHTML = '<img src = "/static/images/egg.PNG/">'
 
         cell1.innerHTML = '<img src = /static/' + picture[i] + '/>';
         cell2.innerHTML = ingredients[i];
