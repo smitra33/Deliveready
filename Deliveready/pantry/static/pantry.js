@@ -52,15 +52,15 @@ function addPantryCard(ingredient) {
     ingredient = ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
 
     const cardDiv = document.createElement("div");
-    cardDiv.classList.add("card", "mx-2" );
+    cardDiv.classList.add("card", "mx-2", "mb-2");
     cardDiv.setAttribute('id', "pantry" + ingredient + "Card");
 
     const imgDiv = document.createElement("img");
     imgDiv.setAttribute('id', ingredient + "CardPic");
     imgDiv.classList.add("card-img", "card-img-top");
-    var image_url = ingredient.toLowerCase() +".png";
-    imgDiv.src = image_url;
-    // imgDiv.src = "/pantry/assets/" + ingredient.toLowerCase() + ".PNG"; 
+    // var image_url = ingredient.toLowerCase() +".png";
+    // imgDiv.src = image_url;
+    imgDiv.src = "/static/assets/" + ingredient.toLowerCase() + ".PNG"; 
 
     // ^^^ change to url for images later and change to JPG
 
