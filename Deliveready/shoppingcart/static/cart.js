@@ -70,7 +70,7 @@ function addItemCard(item, amount, price) {
     item = item.charAt(0).toUpperCase() + item.slice(1);
 
     const cardDiv = document.createElement("div");
-    cardDiv.classList.add("card", "mx-2", "mb-2");
+    cardDiv.classList.add("card", "mx-2", "mb-5");
     cardDiv.setAttribute('id', "cartSummary" + item + "Card");
 
     const imgDiv = document.createElement("img");
