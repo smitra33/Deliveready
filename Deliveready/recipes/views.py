@@ -16,8 +16,6 @@ def recipe(request, recipe_id):
             "recipe": recipe,
         }
         return render(request, 'recipe.html', context)
-    # # TODO: implement to login
-    # return redirect('users:login')
 
 def home(request):
     # if request.user.is_authenticated:
