@@ -15,4 +15,4 @@ class Pantry(models.Model):
 def create_pantry(sender, instance, created, **kwargs):
     if created:
         pantry = Pantry.objects.create(user=instance)
-        Order.objects.create(order_number = 2, date = date.today(), eta = date.today()+datetime.timedelta(days=1), cart_id = pantry.id)
+        Order.objects.create(order_number = pantry.id, date = date.today(), eta = date.today()+datetime.timedelta(days=1), cart_id = pantry.id)
