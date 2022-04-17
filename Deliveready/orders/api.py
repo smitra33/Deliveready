@@ -33,6 +33,7 @@ class OrderView(APIView):
         quantity_unit_list = []
         price_list = []
         picture_list = []
+        price_list2 = []
         
         for cart_ingredient in cart_ingredients:
             cart_ingredient_list.append(Ingredient.objects.filter(id=cart_ingredient.ingredients_id).values('name').first())
@@ -41,21 +42,13 @@ class OrderView(APIView):
             quantity_unit_list.append(Ingredient.objects.filter(id=cart_ingredient.ingredients_id).values('quantity_unit').first())
             price_list.append(Ingredient.objects.filter(id=cart_ingredient.ingredients_id).values('price').first())
             picture_list.append(Ingredient.objects.filter(id=cart_ingredient.ingredients_id).values('filename_url').first())
+            price = Ingredient.objects.filter(id=cart_ingredient.ingredients_id).values('price').first()
+            quantity = cart_ingredient.quantity
+            price_list2.append(float(quantity)*float(price['price']))
 
-
-
-        # ingredient_list = []
-        # quantity_list = []
-        # quantity_unit_list = []
-        # price_list = []
-        # picture_list =[]
-
-        # for key in ingredients:
-        #     ingredient_list.append(Ingredient.objects.filter(id=key['ingredients']).values('name').first())
-        #     quantity_list.append(Ingredient.objects.filter(id=key['ingredients']).values('quantity').first())
-        #     quantity_unit_list.append(Ingredient.objects.filter(id=key['ingredients']).values('quantity_unit').first())
-        #     price_list.append(Ingredient.objects.filter(id=key['ingredients']).values('price').first())
-        #     picture_list.append(Ingredient.objects.filter(id=key['ingredients']).values('filename_url').first())
+        subtotal2 = 0
+        for price in price_list2:
+            subtotal2 = subtotal2 + price
         
         # Gets user shipping information
         user_id = cart.values('user').first()
@@ -66,7 +59,7 @@ class OrderView(APIView):
         phone = user.values('phone_number').first() 
 
         data = {'number': number['order_number'],'date': date['date'],'eta': eta['eta'],'ingredients': cart_ingredient_list, \
-            'subtotal': subtotal['total'], 'first_name': first_name['first_name'], 'last_name': last_name['last_name'],\
+            'subtotal': subtotal2, 'first_name': first_name['first_name'], 'last_name': last_name['last_name'],\
                 'address': address['address'], 'phone': phone['phone_number'],'quantity': quantity_list, 'quantity_unit': quantity_unit_list, \
                     'price': price_list, 'picture': picture_list}
         return JsonResponse(data, safe=False)

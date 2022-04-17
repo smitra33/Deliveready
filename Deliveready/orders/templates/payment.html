@@ -29,10 +29,15 @@
           <nav>
             <ul>
               <li><a href="../../../../home/">Home</a></li>
-              <li><a href="../../../../home/">Recipes</a></li>
+                {% if user.is_superuser %}
+              <li><a href="../../../../make_recipe/">Recipe Portal</a></li>
+                {% endif %}
               <li><a href="../../../pantry/">Pantry</a></li>
               <li><a href="../../../order/view/all">Orders</a></li>
               <li><a href="../../../shoppingcart/">Cart</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% endif %}
             </ul>
           </nav>
         </div>
@@ -43,7 +48,7 @@
         <div class="payment">
             <div class="title-text">
                 <h1 style="color: white;"> '</h1>
-                <h1 style="color: #478E5F; text-align: center;"> Enter Your Payment Details </h1>
+                <h1 style="color: #333D79FF; text-align: center;"> Enter Your Payment Details </h1>
                 <hr size = "10" color = "black" style="width: 60%">
             </div>
             
@@ -71,7 +76,7 @@
 
         </div>
         <div class="button-placement">
-            <button type="button" class="button" style="color:black"><a href="..">Place Order</a></button>
+            <button type="button" class="button" style="color:black"><a href="../view/{{ order.id }}">Place Order</a></button>
         </div>
     </body>
     

@@ -20,4 +20,10 @@ def order_list(request):
     return render(request, "orderlist.html", context)
 
 def payment(request):
-    return render(request,'payment.html')
+    user = request.user
+    order = Order.objects.filter(cart_id=user.id).first()
+    if request.user.is_authenticated:
+        context = {
+            "order": order,
+        }
+    return render(request,'payment.html',context) 

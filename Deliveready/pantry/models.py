@@ -1,4 +1,7 @@
+from datetime import date
+import datetime
 from django.db import models
+from orders.models import Order
 from users.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -11,4 +14,5 @@ class Pantry(models.Model):
 @receiver(post_save, sender=User)
 def create_pantry(sender, instance, created, **kwargs):
     if created:
-        Pantry.objects.create(user=instance)
+        pantry = Pantry.objects.create(user=instance)
+        Order.objects.create(order_number = pantry.id, date = date.today(), eta = date.today()+datetime.timedelta(days=1), cart_id = pantry.id)
