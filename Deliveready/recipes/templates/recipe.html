@@ -62,7 +62,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 id="modal-heading" class="modal-title">Please Confirm</h4>
+              <h4 id="modal-heading" class="modal-title"></h4>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
@@ -74,6 +74,7 @@
 
             <!-- Modal footer -->
             <div id="modal-confirm" style="text-align: center; padding-top: 20px;"></div>
+            <div id="modal-confirm-button" style="text-align: center; padding-top: 20px; display: none"><button class="btn btn-secondary" data-dismiss="modal" onlick="getDuplicateInfo()">Confirm</button></div>
             <div style="text-align: center; padding-top: 20px;"><button class="btn btn-secondary" data-dismiss="modal">Close</button></div>
             <div style="text-align: center; padding-top: 20px;padding-bottom: 50px"><a href="{% url 'recipes:main' %}" type="button" class="btn btn-secondary btn-lg">Browse Recipes</a></div>
           </div>

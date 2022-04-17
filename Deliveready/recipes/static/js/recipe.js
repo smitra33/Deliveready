@@ -31,14 +31,10 @@ function displayRecipeInfo(){
 }
 
 async function addToCart() {
-    checkAddEmptyPantry();
-    checkPantry();
-    checkCart();
-    compareNonDuplicates();
-    handleDuplicates();
+    checkEmptyPantry();
 }
 
-async function checkPantry() {
+async function checkFullPantry() {
     const response = await fetch(`http://127.0.0.1:8000/api/check_pantry_ingredients/${recipe_id}/`);
     var json = await response.json();
     if (json['success']) {
@@ -82,15 +78,19 @@ async function checkPantry() {
             `;
         pantryCheck.innerHTML = pantryContents;
     }
+    document.getElementById('modal-confirm-button').style.display = "block";
     console.log(pantryDuplicates);
 }
 
 async function checkCart() {
     const response = await fetch(`http://127.0.0.1:8000/api/check_cart_ingredients/${recipe_id}/`);
     var json = await response.json();
-    if (json['success']) {
+    if (json['success'] && (json['duplicates'].length > 0)) {
         cartDuplicates = json['duplicates'];
         cartNonDuplicates = json['non-dupes'];
+    }
+    else {
+        addRecipeToCart();
     }
     if (!(cartDuplicates === undefined || cartDuplicates.length == 0)) {
         //open modal with duplicates with options to remove
@@ -130,9 +130,14 @@ async function checkCart() {
         cartCheck.innerHTML = cartContents;
     }
     console.log(cartDuplicates);
+    document.getElementById('modal-confirm-button').style.display = "block";
 }
 
-function compareNonDuplicates(){
+function handleDuplicates(){
+    if ((!pantryDuplicates.length === 0) || (!cartDuplicates.length === 0)){
+
+    }
+
     var add_list = {}
     pantryNonDuplicates.forEach(pndup => {
         cartNonDuplicates.forEach(cndup => {
@@ -143,24 +148,6 @@ function compareNonDuplicates(){
     });
     if (!Object.keys(add_list).length===0) {
         addIngredientsToCart(add_list);
-    }
-}
-
-function handleDuplicates(){
-    // var add_list = {}
-    // pantryNonDuplicates.forEach(pndup => {
-    //     cartNonDuplicates.forEach(cndup => {
-    //         if (pndup.name == cndup.name){
-    //             add_list[cndup.name] = 1;
-    //         }
-    //     });
-    // });
-    // if (add_list){
-    //     addIngredientsToCart(add_list);
-    // }
-    if ((!pantryDuplicates.length === 0) || (!cartDuplicates.length === 0)){
-        document.getElementById('modal-confirm'). innerHTML =
-            `<button class="btn btn-secondary">Confirm</button>`;
     }
 }
 
@@ -184,11 +171,15 @@ async function addIngredientsToCart(ingredients) {
     }
 }
 
-async function checkAddEmptyPantry() {
+async function checkEmptyPantry() {
     const response = await fetch(`http://127.0.0.1:8000/api/check_empty_pantry/`);
     var json = await response.json();
     if (json['success'] && json['empty_pantry']) {
-        addRecipeToCart();
+        checkCart();
+    }
+    else {
+        checkFullPantry();
+        checkCart();
     }
 }
 

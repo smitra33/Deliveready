@@ -123,8 +123,8 @@ class CheckEmptyPantry(APIView):
         try:
             empty_pantry = False
             user = User.objects.filter(username=request.user).first()
-            pantry_list = Pantry.objects.filter(user__id=user.id).values('ingredients')
-            if pantry_list is None:
+            pantry_list = Pantry.objects.filter(user__id=user.id).values('ingredients').first()
+            if pantry_list['ingredients'] is None:
                 empty_pantry = True
             return JsonResponse({'success': True, 'empty_pantry': empty_pantry})
         except Exception as e:
