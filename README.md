@@ -30,7 +30,8 @@ Example steps in django shell, run these in virtual environment:
 Now, avocado is an available ingredient for you to use in a recipe! You can build a recipe now in the Recipe Portal for an admin user. 
 Ingredients can now be added to your pantry as well. 
 Once ingredients have been added and recipes have been created, the homepage will look like this. 
-Upon clicking individuals, you can add their ingredients to your cart. 
+Upon clicking individual recipes, you can add their ingredients to your cart. 
+When checking out the cart, the order will be confirmed and then available for you to view on Orders Page.
 
 <img width="765" alt="homepage" src="https://user-images.githubusercontent.com/60757186/163730205-07043062-faf8-411d-89b8-7bbbabd1a60c.PNG">
 
