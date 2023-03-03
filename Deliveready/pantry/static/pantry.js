@@ -5,6 +5,7 @@ let searchInput = document.querySelector('#searchInput');
 const pantryList = document.getElementById("pantryList");
 const pantryImageArea = document.getElementById("pantryImageArea");
 
+// Gets pantry table
 async function getPantryInfo() {
     const response = await fetch (`http://127.0.0.1:8000/pantry/api/view/`)
     pantryInfo = await response.json();
@@ -12,6 +13,7 @@ async function getPantryInfo() {
     assignPantryInfo();
 }
 
+// Assigns pantry info
 function assignPantryInfo() {
     pantryInfo['ingredients'].forEach(ing => {
         ingredients.push(ing['name']);
@@ -19,6 +21,7 @@ function assignPantryInfo() {
     displayElements();
 }
 
+// Displays elemnts in pantry
 function displayElements() {
     for (var i = 0; i<ingredients.length; i++) {
         var targetItem = ingredients[i];
@@ -26,6 +29,7 @@ function displayElements() {
     }
 }
 
+// Function responsible for deleting ingredient "cards"
 function deleteIngredient(e) {
     const parent = e.target.parentNode;
     const target = document.getElementById(parent.getAttribute('id') + "Card");
@@ -35,6 +39,7 @@ function deleteIngredient(e) {
     parent.remove();
 }
 
+// Function responsible for calling DELETE api when user removes ingredient from pantry
 async function deleteIngFromPantry(targetIng) {
     const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/`, {
         method: 'DELETE',
@@ -48,27 +53,8 @@ async function deleteIngFromPantry(targetIng) {
     console.log(json['success']);
 }
 
-// function deleteIngredient(e) {
-//     const parent = e.target.parentNode;
-//     const target = document.getElementById(parent.getAttribute('id') + "Card");
-//     const pantryIngredientId = parent.getAttribute('data-pantry-id'); // get the id of the pantry ingredient
-//     deleteIngFromPantry(pantryIngredientId); // pass the id of the pantry ingredient to the deleteIngFromPantry function
-//     target.remove();
-//     parent.remove();
-// }
 
-// async function deleteIngFromPantry(pantryIngredientId) {
-//     const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/${pantryIngredientId}/`, {
-//         method: 'DELETE',
-//         headers: {
-//             'Content-type': 'application/json',
-//             'X-CSRFToken': getCookie('csrftoken')
-//         }
-//     });
-//     const json = await response.json()
-//     console.log(json['success']);
-// }
-
+// Adds pantry card to UI when user adds ingredient to pantry
 function addPantryCard(ingredient) {
     ingredient = ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
 
@@ -96,36 +82,7 @@ function addPantryCard(ingredient) {
 }
 
 
-// //
-// function addToPantry(ingredient) {
-//     if (ingredient.length === null) return;
-//     if (ingredient.length === 0) return;
-//     console.log(isLettersOnly(ingredient));
-//     if (!isLettersOnly(str)) return;
-
-
-//     ingredient = ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
-
-//     var pantryItem = document.createElement('li');
-//     pantryItem.classList.add("list-group-item", "d-flex", "justify-content-between", "lh-sm");
-//     pantryItem.setAttribute('id', "pantry" + ingredient);
-
-//     const ingDiv = document.createElement("div");
-//     ingDiv.classList.add("my-0", "col-6");
-//     ingDiv.innerHTML = ingredient;
-
-//     const newBtn = document.createElement("button");
-//     newBtn.classList.add("btn", "btn-danger", "btn-sm");
-//     newBtn.innerHTML = "x";
-//     newBtn.addEventListener("click", (e) => deleteIngredient(e));
-
-//     pantryItem.appendChild(ingDiv);
-//     pantryItem.appendChild(newBtn);
-
-//     pantryList.appendChild(pantryItem);
-//     addPantryCard(ingredient);
-// }
-
+// Adds things to the pantry card
 function addToPantry(ingredient) {
     if (ingredient.length === null) return;
     if (ingredient.length === 0) return;
@@ -166,25 +123,6 @@ function addToPantryFromButton() {
     addToPantryDatabase(ingredient);
     addToPantry(ingredient);
 }
-
-// async function addToPantryDatabase(targetIng, pantryItem) {
-//     targetIng = targetIng.charAt(0).toUpperCase() + targetIng.slice(1);
-//     const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/`, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             name: targetIng,
-//             quantity: pantryItem.quantity,
-//             unit: pantryItem.unit
-//         })
-//     });
-//     if (!response.ok) {
-//         throw new Error(`HTTP error! status: ${response.status}`);
-//     }
-//     return await response.json();
-// }
 
 
 addBtn.addEventListener('click', function() {
