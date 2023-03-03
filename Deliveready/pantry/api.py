@@ -29,18 +29,31 @@ class PantryView(APIView):
     def post(self, request, *args, **kwargs):
         try:
             ing_dict = request.data
+            print(ing_dict)
             user = User.objects.filter(username=request.user).first()
             pantry = Pantry.objects.filter(user__id=user.id).first()
             for key in ing_dict.items():
-                ing_name = ing_dict['text']  
-                if Ingredient.objects.get_or_create(name=ing_name) == False:
-                    desired_ingredient = Ingredient.objects.filter(name=ing_name).first()
-                else: 
-                    desired_ingredient = Ingredient.objects.filter(name=ing_name).first()
+                ing_name = ing_dict['text']
+                desired_ingredient = Ingredient.objects.get(name=ing_name)
                 pantry.ingredients.add(desired_ingredient).save()
             return JsonResponse({'success': True, 'message': ''})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
+    # def post(self, request, *args, **kwargs):
+    #     try:
+    #         ing_dict = request.data
+    #         user = User.objects.filter(username=request.user).first()
+    #         pantry = Pantry.objects.filter(user__id=user.id).first()
+    #         for key in ing_dict.items():
+    #             ing_name = ing_dict['text']  
+    #             if Ingredient.objects.get_or_create(name=ing_name) == False:
+    #                 desired_ingredient = Ingredient.objects.filter(name=ing_name).first()
+    #             else: 
+    #                 desired_ingredient = Ingredient.objects.filter(name=ing_name).first()
+    #             pantry.ingredients.add(desired_ingredient).save()
+    #         return JsonResponse({'success': True, 'message': ''})
+    #     except Exception as e:
+    #         return JsonResponse({'success': False, 'message': str(e)})
         
 # Delete API for pantry
 # # Filters request and then searches for the desired item and deletes it

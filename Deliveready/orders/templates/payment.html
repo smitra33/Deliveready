@@ -1,7 +1,7 @@
 {% load static %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/payment.css' %}">
-    <script src="{% static 'js/payment.js' %}"></script>
+    <!-- <script src="{% static 'js/payment.js' %}"></script> -->
 {% endblock %}
 {% block title %}
     <title>Payment</title>
@@ -54,12 +54,12 @@
             
             <div class="payment-details">
                 <form>                
-                    <input type="text" class="input-box" name="card-number" placeholder="Card Number" size="40"><br>
+                    <input type="text" id = "cardinput" class="input-box" name="card-number" placeholder="Card Number" size="40"><br>
                 <form>
-                    <input type="text" class="input-box" name="address" placeholder="Street Address" size="40" maxlength="42"><br>
+                    <input type="text" id = "addressinput" class="input-box" name="address" placeholder="Street Address" size="40" maxlength="42"><br>
                 </form>
                 <form>
-                    <input type="text" class="input-box" name="unit" placeholder="Apt, unit, suite, etc (optional)" size="40" maxlength="42"><br>
+                    <input type="text" id = "aptinput"class="input-box" name="unit" placeholder="Apt, unit, suite, etc (optional)" size="40" maxlength="42"><br>
                 </form>
                 <select name="country" id="country">
                     <option value = "" disabled selected>Country</option>
@@ -67,16 +67,16 @@
                     <option value = "us">United States</option>
                 </select>
                 <div class="city">
-                    <div class="next-to"> <input type="text" class="input-box" name="city" placeholder="City" size="8" maxlength="10"><br></div>
-                    <div class="next-to"><input type="text" class="input-box" name="province" placeholder="Province" size="8" maxlength="10"><br> </div>
-                    <div class="next-to"><input type="text" class="input-box" name="postal" placeholder="PC" size="8" maxlength="10"><br> </div>
+                    <div class="next-to"> <input type="text" id = "cityinput" class="input-box" name="city" placeholder="City" size="8" maxlength="10"><br></div>
+                    <div class="next-to"><input type="text" id = "provinceinput" class="input-box" name="province" placeholder="Province" size="8" maxlength="10"><br> </div>
+                    <div class="next-to"><input type="text" id = "postalcodeinput" class="input-box" name="postal" placeholder="PC" size="8" maxlength="10"><br> </div>
                 </div>
                 <p style="color:white"> '</p>
             </div> 
 
         </div>
         <div class="button-placement">
-            <button type="button" class="button" style="color:black"><a href="../view/{{ order.id }}">Place Order</a></button>
+            <button id = "placeOrderBtn" type="button" class="button" style="color:black"><a href="../view/{{ order.id }}">Place Order</a></button>
         </div>
     </body>
     

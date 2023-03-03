@@ -26,48 +26,48 @@ function displayElements() {
     }
 }
 
-// function deleteIngredient(e) {
-//     const parent = e.target.parentNode;
-//     const target = document.getElementById(parent.getAttribute('id') + "Card");
-//     var targetIng = parent.getAttribute('id').replace("pantry","");
-//     deleteIngFromPantry(targetIng);                                                         // DDELETE FUNCTION
-//     target.remove();
-//     parent.remove();
-// }
-
-// async function deleteIngFromPantry(targetIng) {
-//     const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/`, {
-//         method: 'DELETE',
-//         headers: {
-//             'Content-type': 'application/json',
-//             'X-CSRFToken': getCookie('csrftoken')
-//         },
-//         body: JSON.stringify({'text':targetIng})
-//     });
-//     const json = await response.json()
-//     console.log(json['success']);
-// }
-
 function deleteIngredient(e) {
     const parent = e.target.parentNode;
     const target = document.getElementById(parent.getAttribute('id') + "Card");
-    const pantryIngredientId = parent.getAttribute('data-pantry-id'); // get the id of the pantry ingredient
-    deleteIngFromPantry(pantryIngredientId); // pass the id of the pantry ingredient to the deleteIngFromPantry function
+    var targetIng = parent.getAttribute('id').replace("pantry","");
+    deleteIngFromPantry(targetIng);                                                         // DDELETE FUNCTION
     target.remove();
     parent.remove();
 }
 
-async function deleteIngFromPantry(pantryIngredientId) {
-    const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/${pantryIngredientId}/`, {
+async function deleteIngFromPantry(targetIng) {
+    const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/`, {
         method: 'DELETE',
         headers: {
             'Content-type': 'application/json',
             'X-CSRFToken': getCookie('csrftoken')
-        }
+        },
+        body: JSON.stringify({'text':targetIng})
     });
     const json = await response.json()
     console.log(json['success']);
 }
+
+// function deleteIngredient(e) {
+//     const parent = e.target.parentNode;
+//     const target = document.getElementById(parent.getAttribute('id') + "Card");
+//     const pantryIngredientId = parent.getAttribute('data-pantry-id'); // get the id of the pantry ingredient
+//     deleteIngFromPantry(pantryIngredientId); // pass the id of the pantry ingredient to the deleteIngFromPantry function
+//     target.remove();
+//     parent.remove();
+// }
+
+// async function deleteIngFromPantry(pantryIngredientId) {
+//     const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/${pantryIngredientId}/`, {
+//         method: 'DELETE',
+//         headers: {
+//             'Content-type': 'application/json',
+//             'X-CSRFToken': getCookie('csrftoken')
+//         }
+//     });
+//     const json = await response.json()
+//     console.log(json['success']);
+// }
 
 function addPantryCard(ingredient) {
     ingredient = ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
@@ -129,8 +129,6 @@ function addPantryCard(ingredient) {
 function addToPantry(ingredient) {
     if (ingredient.length === null) return;
     if (ingredient.length === 0) return;
-    console.log(isLettersOnly(ingredient));
-    if (!isLettersOnly(str)) return;
 
     ingredient = ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
 
@@ -158,38 +156,41 @@ function addToPantry(ingredient) {
 
 // Functionality for Add button in the pantry 
 // Adds the typed up ingredient to the users pantry when user clicks on the button
-// function addToPantryFromButton() {
-//     var ingredient = searchInput.value;
-//     if (ingredient === null) return;
-//     if (ingredient.length === 0) return;
-//     if (document.getElementById("pantry" + ingredient.charAt(0).toUpperCase() + ingredient.slice(1)) != null) {
-//         return;
-//     }
-//     addToPantryDatabase(ingredient);
-//     addToPantry(ingredient);
-// }
-
-async function addToPantryDatabase(targetIng, pantryItem) {
-    targetIng = targetIng.charAt(0).toUpperCase() + targetIng.slice(1);
-    const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: targetIng,
-            quantity: pantryItem.quantity,
-            unit: pantryItem.unit
-        })
-    });
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+function addToPantryFromButton() {
+    var ingredient = searchInput.value;
+    if (ingredient === null) return;
+    if (ingredient.length === 0) return;
+    if (document.getElementById("pantry" + ingredient.charAt(0).toUpperCase() + ingredient.slice(1)) != null) {
+        return;
     }
-    return await response.json();
+    addToPantryDatabase(ingredient);
+    addToPantry(ingredient);
 }
 
+// async function addToPantryDatabase(targetIng, pantryItem) {
+//     targetIng = targetIng.charAt(0).toUpperCase() + targetIng.slice(1);
+//     const response = await fetch(`http://127.0.0.1:8000/pantry/api/view/`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({
+//             name: targetIng,
+//             quantity: pantryItem.quantity,
+//             unit: pantryItem.unit
+//         })
+//     });
+//     if (!response.ok) {
+//         throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+//     return await response.json();
+// }
 
-addBtn.addEventListener('click', addToPantryFromButton);
+
+addBtn.addEventListener('click', function() {
+    addToPantryFromButton();
+    location.reload();
+});
 
 // Adds the pantry to the database -- POST api request
 async function addToPantryDatabase(targetIng) {

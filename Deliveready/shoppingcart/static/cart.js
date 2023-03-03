@@ -1,6 +1,7 @@
 let ingredientsList = [];
 let quantityList = [];
 let priceList = [];
+let idDict = {};
 
 // WHEN YOU ADD INGREDEINT FROM BUTTON JUST SEND THE INFO TO THE DATABASE, MAKE IT AND THEN PULL WITH GETCARTINFO ***
 
@@ -10,33 +11,49 @@ async function getCartInfo() {
     const response = await fetch (`http://127.0.0.1:8000/shoppingcart/api/view/`)
     cartInfo = await response.json();
     console.log(cartInfo);
+    console.log("TEST");
+    console.log(cartInfo['price']);
     assignCartInfo();
 }
 
 function assignCartInfo() {
     cartInfo['ingredients'].forEach(ing => {
         ingredientsList.push(ing['name']);
+        idDict[ing['name']] = ing['id'];
     });
     cartInfo['quantity'].forEach(ing => {
         quantityList.push(ing);
     });
     cartInfo['price'].forEach(ing => {
-        priceList.push(ing['price']);
+        priceList.push(ing);
     });
-    finalTotal = cartInfo['total']
+    finalTotal = cartInfo['total'];
+    console.log(idDict);
     displayElements(finalTotal);
 }
 
+// function displayElements(finalTotal) {
+//     for (var i = 0; i<ingredientsList.length; i++) {
+//         var item = ingredientsList[i];
+//         var amount = quantityList[i];
+//         var price = priceList[i];
+//         addItemSummary(item, amount, price);
+//         document.getElementById("totalCartValue").innerHTML = "$" + finalTotal.toFixed(2);
+//     }
+// }
+
 function displayElements(finalTotal) {
-    for (var i = 0; i<ingredientsList.length; i++) {
-        var item = ingredientsList[i];
-        var amount = quantityList[i];
-        console.log(amount);
-        var price = priceList[i];
-        addItemSummary(item, amount, price);
-        document.getElementById("totalCartValue").innerHTML = "$" + finalTotal.toFixed(2);
+    let total = 0;
+    for (let i = 0; i < ingredientsList.length; i++) {
+      const item = ingredientsList[i];
+      const amount = quantityList[i];
+      const price = priceList[i];
+      addItemSummary(item, amount, price);
+      const subTotal = amount * price;
+      total += subTotal;
     }
-}
+    document.getElementById("totalCartValue").innerHTML = "$" + finalTotal.toFixed(2);
+  }
 
 const addBtn = document.getElementById('cartAddBtn');
 const searchInput = document.querySelector('#cartSearchInput');
@@ -56,13 +73,17 @@ function deleteItem(e) {
 
 async function deleteIngFromCart(targetIng, amount) {
     targetIng = targetIng.charAt(0).toUpperCase() + targetIng.slice(1);
+    targetIng = targetIng.replace(/CartSummary/, "");
+    ingId = idDict[targetIng];
+    console.log(ingId);
+    console.log(targetIng);
     const response = await fetch(`http://127.0.0.1:8000/shoppingcart/api/view/`, {
         method: 'DELETE',
         headers: {
             'Content-type': 'application/json',
             'X-CSRFToken': getCookie('csrftoken')
         },
-        body: JSON.stringify({'text':targetIng})
+        body: JSON.stringify({'text':targetIng, 'id': ingId})
     });
     const json = await response.json()
     console.log(json['success']);
@@ -181,7 +202,7 @@ async function addIngredientToDatabase(targetIng, amount) {
         body: JSON.stringify({'text':targetIng, 'amount':amount})
     });
     const json = await response.json()
-    console.log(json['success']);
+    // console.log(json['success']);
 }
 
 

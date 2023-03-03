@@ -15,36 +15,47 @@ body, html {
     margin-left: 200px;
 }
 
-.nav {
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 8px;
+}
+
+/* .nav {
     background-color: lightgrey;
     height: 70px;
     border: 0.5px solid black;
 }
 
-.nav u1 {
+.nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
     vertical-align: top;
-}
+} */
 
-.badge {
+/* .badge {
     margin-right: 15px;
-}
+} */
 
-li a {
+/* li a {
     display: block;
     color: black;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    margin-top: 10px;
+    margin-top:10px;
+    
 }
 li {
     float: left;
     margin-top: 0px;
-}
+} */
 
 .centertop {
     display: inline-block;
@@ -67,6 +78,8 @@ li {
     margin: auto;
 
     }
+
+
 
 .card {
     padding: 15px;

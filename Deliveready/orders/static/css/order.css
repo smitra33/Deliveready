@@ -146,6 +146,12 @@ nav a:hover::before {
     overflow-y: scroll
 }
 
+.image_place {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+
 .total {
     width: 1000px;
     text-align: right;

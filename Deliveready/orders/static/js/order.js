@@ -73,7 +73,7 @@ function displayElements(){
     var table = document.getElementById("ingredients-table");
     for (var i = 0; i < ingredientLength; i++) {
         row = table.insertRow(i+1);
-        cell1 = row.insertCell(0); // picture
+        // cell1 = row.insertCell(0); // picture
         cell2 = row.insertCell(1); // name
         cell3 = row.insertCell(2); // quantity
         cell4 = row.insertCell(3); // price
