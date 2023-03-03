@@ -9,6 +9,7 @@ from users.models import User
 from shoppingcart.models import ShoppingCart
 
 
+# API's for pantry page related functions
 class PantryView(APIView):
     @action(detail=True, methods=['get', 'post', 'delete'], url_path='list', url_name='list')
     def get(self, request):
@@ -22,6 +23,9 @@ class PantryView(APIView):
         data = {'ingredients': ingredient_list}
         return JsonResponse(data, safe=False)
 
+    # Post API for pantry
+    # Gets the user, ingredient dictionary, and pantry from request
+    # Filters for requested ingredient and then adds it to the pantry
     def post(self, request, *args, **kwargs):
         try:
             ing_dict = request.data
@@ -37,8 +41,9 @@ class PantryView(APIView):
             return JsonResponse({'success': True, 'message': ''})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
-
-
+        
+# Delete API for pantry
+# # Filters request and then searches for the desired item and deletes it
     def delete(self, request, *args, **kwargs):
         try:
             ing_dict = request.data
@@ -47,7 +52,12 @@ class PantryView(APIView):
             for key in ing_dict.items():
                 ing_name = ing_dict['text']
                 desired = pantry.ingredients.filter(name=ing_name).first()
-                desired.delete()
+                if desired:
+                    pantry.ingredients.remove(desired)
             return JsonResponse({'success': True, 'message': ''})
         except Exception as e:
-            return JsonResponse({'success': False, 'message': str(e)})     
+            return JsonResponse({'success': False, 'message': str(e)})
+
+
+# Delete API for pantry
+# # Filters request and then searches for the desired item and deletes it
