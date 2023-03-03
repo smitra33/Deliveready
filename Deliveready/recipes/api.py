@@ -57,6 +57,7 @@ class CheckIngredientsPantry(APIView):
                 dup_list.append(Ingredient.objects.filter(id=dup['ingredients']).values('name').first())
             for ndup in non_duplicates:
                 non_dup_list.append(Ingredient.objects.filter(id=ndup['ingredients']).values('name').first())
+            print(non_dup_list)
             return JsonResponse({'success': True, 'duplicates': dup_list, 'non-dupes': non_dup_list})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
@@ -117,15 +118,22 @@ class AddSelectedIngredientsToCart(APIView):
     def post(self, request, *args, **kwargs):
         try:
             ing_dict = request.data
+            print(ing_dict)
             user = User.objects.filter(username=request.user).first()
             cart = ShoppingCart.objects.filter(user__id=user.id).first()
             for key, value in ing_dict.items():
+                print(key,value)
                 single_ing = Ingredient.objects.get(name=key)
                 quantity_cart = int(value)
+                print(quantity_cart, single_ing.name)
                 product = CartIngredient.objects.filter(ingredients_id=single_ing.id).filter(shopping_cart_id=cart.id).first()
                 if product:
                     product.quantity = product.quantity + quantity_cart
+                    print(product.quantity)
                     product.save()
+                else:
+                    CartIngredient.objects.create(ingredients=single_ing,shopping_cart=cart,quantity=single_ing.quantity)
+                    
             return JsonResponse({'success': True, 'message': ''})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})

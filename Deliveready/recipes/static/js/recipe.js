@@ -45,45 +45,76 @@ function refreshModal() {
 
 function getDuplicateInfo() {
     var sendList = {}
+    var tempDup = {}
+    if (cartDuplicates.length > 0) {
+        cartDuplicates.forEach(dup => {
+            tempDup[dup.name] = 1;
+        });
+    }
     if (pantryDuplicates.length > 0) {
     pantryDuplicates.forEach(dup => {
         var element = dup.name + '-quantity-pantry';
         var val = document.getElementById(element).value;
         if (parseInt(val) > 0) {
             if (dup.name in sendList){
+                // console.log("pd", dup.name);
                 sendList[dup.name] = parseInt(val) + 1;
             }
             else {
               sendList[dup.name] = parseInt(val);
+            //   console.log("pd", dup.name, parseInt(val));
             }
         }
     });
     }
+    console.log("testing", pantryNonDuplicates);
+    console.log("cartdups", cartDuplicates);
+    console.log("tempdup",tempDup);
+
     if (pantryNonDuplicates.length > 0) {
     pantryNonDuplicates.forEach(dup => {
-        if (dup.name in sendList){
-            sendList[dup.name] = parseInt(sendList[dup.name]) + 1;
+        // console.log("non-dup", dup.name);
+        // if (dup.name in sendList){
+        //     sendList[dup.name] = parseInt(sendList[dup.name]) + 1;
+        // }
+        if (!(dup.name in sendList) && !(dup.name in tempDup)){
+            console.log("non-dup", dup.name);
+            sendList[dup.name] = 1;
         }
+        else sendList[dup.name] = 0;
     });
     }
+    console.log("sendList after pantrydup",sendList);
     if (cartDuplicates.length > 0) {
         cartDuplicates.forEach(dup => {
             var element = dup.name + '-quantity-cart';
             console.log(element);
             var val = document.getElementById(element).value;
             if (parseInt(val) > 0) {
-                if (dup.name in sendList) {
-                    sendList[dup.name] = parseInt(val) + parseInt(sendList[dup.name]);
-                } else {
+                // if (dup.name in sendList) {
+                //     sendList[dup.name] = parseInt(val) + parseInt(sendList[dup.name]);
+                // } 
+                if (!(dup.name in sendList)){
+                    sendList[dup.name] = 1;
+                }
+                else {
                     sendList[dup.name] = parseInt(val);
                 }
             }
         });
-        if (Object.keys(sendList).length === 0) {
-            document.getElementById('modal-add').innerHTML = `<div style="text-align: center;"><h6>Nothing Added</h6><div id=totals></div></div>`
-        } else {
-            addIngredientsToCart(sendList);
+    }
+    for (var key in sendList) {
+        if (sendList[key] == 0) {
+            // console.log("deleting", key);
+            delete sendList[key];
         }
+    }
+    if (Object.keys(sendList).length === 0) {
+        // console.log("sendlistabove",sendList);
+        document.getElementById('modal-add').innerHTML = `<div style="text-align: center;"><h6>Nothing Added</h6><div id=totals></div></div>`
+    } else {
+        console.log("sendlistfinal",sendList);
+        addIngredientsToCart(sendList);
     }
 }
 
@@ -133,7 +164,7 @@ async function checkFullPantry() {
     }
     if (pantryDuplicates.length > 0) {
         document.getElementById('modal-confirm-button').style.display = "block";
-    }
+    }  
 }
 
 async function checkCart() {
@@ -208,6 +239,7 @@ async function addIngredientsToCart(ingredients) {
     else {
         totals = ingredients.name;
     }
+    console.log("ingredients", ingredients);
     const response = await fetch(`http://127.0.0.1:8000/api/add_select_ingredients/`, {
             method: 'POST',
             headers: {
